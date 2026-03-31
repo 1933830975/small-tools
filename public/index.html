@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Cyber Toolbox Pro</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+body{background:#12141d;color:#e6e9ef;transition:background .3s}
+body.theme-pink{background:#1a121d}
+body.theme-green{background:#121d18}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.show{opacity:1;pointer-events:auto}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:260px;background:#1b1e29;z-index:50;transform:translateX(-100%);transition:transform .3s ease;padding:24px 16px;overflow-y:auto}
+.sidebar.show{transform:translateX(0)}
+.sidebar h2{color:#c4a1ff;font-size:18px;margin-bottom:24px}
+.sidebar .menu-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:8px;color:#d1d5db;cursor:pointer}
+.sidebar .menu-item:hover{background:rgba(196,161,255,.1)}
+.sidebar .close-btn{position:absolute;top:20px;right:16px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:#252a3a;color:#fff}
+.header{position:fixed;top:0;left:0;right:0;height:60px;background:#1b1e29;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:30}
+.header .menu-btn{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:#252a3a;color:#fff}
+.header .title{font-weight:600;color:#e6e9ef}
+.main{margin-top:60px;margin-bottom:80px;padding:16px}
+.section{margin-bottom:28px}
+.section h3{font-size:16px;color:#a5b3ff;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{background:#202431;border-radius:12px;padding:12px;text-align:center;cursor:pointer}
+.card:hover{background:#272b3b}
+.card .name{font-size:13px;color:#e6e9ef;margin-top:6px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#1b1e29;display:flex;align-items:center;justify-content:space-around;padding:0 4px;z-index:30}
+.bottom-nav .item{display:flex;flex-direction:column;align-items:center;gap:4px;color:#9ca3af;font-size:12px;padding:8px;min-width:64px}
+.bottom-nav .item.active{color:#c4a1ff}
+.theme-switch{display:flex;gap:8px;margin-top:16px}
+.theme-btn{width:32px;height:32px;border-radius:50%}
+.theme-btn.blue{background:#12141d}
+.theme-btn.pink{background:#1a121d}
+.theme-btn.green{background:#121d18}
+
+/* 记忆面板 */
+.memory-box{background:#1b1e29;border-radius:12px;padding:12px;margin-bottom:20px}
+.memory-box h4{color:#c4a1ff;font-size:14px;margin-bottom:10px}
+.memory-item{padding:6px 8px;background:#252a3a;border-radius:8px;margin-bottom:6px;font-size:12px}
+.memory-item span{color:#a5b3ff}
+
+/* 输入弹窗 */
+.tool-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1b1e29;border-radius:16px;padding:20px;width:90%;max-width:380px;z-index:99;display:none}
+.tool-modal.show{display:block}
+.tool-modal input{width:100%;padding:12px;border-radius:10px;background:#252a3a;border:none;color:#fff;margin:10px 0}
+.tool-modal .btn{padding:10px 14px;background:#c4a1ff;color:#000;border-radius:10px;border:none;width:100%;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay"></div>
+
+<!-- 侧边栏 -->
+<div class="sidebar" id="sidebar">
+<div class="close-btn" id="closeSidebar">✕</div>
+<h2>Cyber Toolbox</h2>
+<div class="theme-switch">
+<div class="theme-btn blue" data-theme="blue"></div>
+<div class="theme-btn pink" data-theme="pink"></div>
+<div class="theme-btn green" data-theme="green"></div>
+</div>
+<div class="menu-item" data-name="首页">首页</div>
+<div class="menu-item" data-name="文本处理">文本处理</div>
+<div class="menu-item" data-name="编码加密">编码加密</div>
+<div class="menu-item" data-name="游戏二次元">游戏二次元</div>
+<div class="menu-item" data-name="多媒体">多媒体</div>
+<div class="menu-item" data-name="网络工具">网络工具</div>
+<div class="menu-item" data-name="玩机助手">玩机助手</div>
+<div class="menu-item" data-name="趣味整活">趣味整活</div>
+<div class="menu-item" data-name="设置">设置</div>
+</div>
+
+<!-- 头部 -->
+<div class="header">
+<div class="menu-btn" id="openSidebar">☰</div>
+<div class="title">全能工具箱 Pro</div>
+<div style="width:40px"></div>
+</div>
+
+<!-- 主内容 -->
+<div class="main">
+<!-- 记忆面板 -->
+<div class="memory-box">
+<h4>🕒 最近使用</h4>
+<div id="memoryList"></div>
+</div>
+
+<div class="section">
+<h3>常用工具</h3>
+<div class="grid">
+<div class="card tool" data-name="文本翻转"><div class="name">文本翻转</div></div>
+<div class="card tool" data-name="MD5加密"><div class="name">MD5加密</div></div>
+<div class="card tool" data-name="密码生成"><div class="name">密码生成</div></div>
+</div>
+</div>
+
+<div class="section">
+<h3>文本处理</h3>
+<div class="grid">
+<div class="card tool" data-name="繁简转换"><div class="name">繁简转换</div></div>
+<div class="card tool" data-name="字数统计"><div class="name">字数统计</div></div>
+<div class="card tool" data-name="去重复行"><div class="name">去重复行</div></div>
+<div class="card tool" data-name="大小写转换"><div class="name">大小写转换</div></div>
+<div class="card tool" data-name="竖排文本"><div class="name">竖排文本</div></div>
+</div>
+</div>
+
+<div class="section">
+<h3>编码加密</h3>
+<div class="grid">
+<div class="card tool" data-name="Base64编码"><div class="name">Base64编码</div></div>
+<div class="card tool" data-name="Base64解码"><div class="name">Base64解码</div></div>
+<div class="card tool" data-name="URL编码"><div class="name">URL编码</div></div>
+<div class="card tool" data-name="URL解码"><div class="name">URL解码</div></div>
+<div class="card tool" data-name="SHA256加密"><div class="name">SHA256</div></div>
+<div class="card tool" data-name="摩斯密码"><div class="name">摩斯密码</div></div>
+</div>
+</div>
+</div>
+
+<!-- 底部导航 -->
+<div class="bottom-nav">
+<div class="item active">首页</div>
+<div class="item">工具</div>
+<div class="item">发现</div>
+<div class="item">我的</div>
+</div>
+
+<!-- 工具输入弹窗 -->
+<div class="tool-modal" id="toolModal">
+<div id="modalTitle"></div>
+<input id="toolInput" placeholder="请输入内容">
+<button class="btn" id="runTool">执行</button>
+</div>
+
+<script>
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const openBtn = document.getElementById('openSidebar');
+const closeBtn = document.getElementById('closeSidebar');
+const toolModal = document.getElementById('toolModal');
+const modalTitle = document.getElementById('modalTitle');
+const toolInput = document.getElementById('toolInput');
+const runTool = document.getElementById('runTool');
+const memoryList = document.getElementById('memoryList');
+
+let currentTool = '';
+
+// 开关侧边栏
+function openSidebar(){sidebar.classList.add('show');overlay.classList.add('show')}
+function closeSidebar(){sidebar.classList.remove('show');overlay.classList.remove('show');toolModal.classList.remove('show')}
+openBtn.addEventListener('click',openSidebar);
+closeBtn.addEventListener('click',closeSidebar);
+overlay.addEventListener('click',closeSidebar);
+
+// 加载记忆
+async function loadMemory(){
+  const r=await fetch('/api/memory');
+  const d=await r.json();
+  memoryList.innerHTML=d.data.map(i=>`
+  <div class="memory-item">${i.tool} <span>${i.time}</span></div>
+  `).join('')
+}
+loadMemory();
+
+// 需要输入的工具
+const needInput = [
+  'MD5加密','SHA256加密','Base64编码','Base64解码',
+  'URL编码','URL解码','文本翻转','字数统计'
+];
+
+// 打开工具弹窗
+function openTool(tool){
+  currentTool=tool;
+  modalTitle.textContent=`工具：${tool}`;
+  toolInput.value='';
+  toolModal.classList.add('show');
+}
+
+// 执行工具
+runTool.addEventListener('click',async ()=>{
+  const content=toolInput.value.trim();
+  const res=await fetch('/api/tool',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({toolName:currentTool,content})
+  });
+  const data=await res.json();
+  alert(data.msg + '\n结果：' + (data.data?.result||''));
+  toolModal.classList.remove('show');
+  loadMemory();
+});
+
+// 工具点击
+document.querySelectorAll('.tool').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const name=el.dataset.name;
+    if(needInput.includes(name)) openTool(name);
+    else useTool(name);
+  })
+});
+
+// 侧边菜单
+document.querySelectorAll('.menu-item').forEach(el=>{
+  el.addEventListener('click',()=>{
+    alert('打开分类：'+el.dataset.name);
+    closeSidebar();
+  })
+});
+
+// 底部导航
+document.querySelectorAll('.bottom-nav .item').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('.bottom-nav .item').forEach(i=>i.classList.remove('active'));
+    el.classList.add('active');
+    alert('切换：'+el.textContent.trim());
+    closeSidebar();
+  })
+});
+
+// 无需输入的工具直接调用
+async function useTool(name){
+  const res=await fetch('/api/tool',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({toolName:name,content:''})
+  });
+  const d=await res.json();
+  alert(d.msg+'\n'+d.data.result);
+  loadMemory();
+}
+
+// 主题切换
+document.querySelectorAll('.theme-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.body.className='theme-'+btn.dataset.theme
+  })
+})
+</script>
+</body>
+</html>
