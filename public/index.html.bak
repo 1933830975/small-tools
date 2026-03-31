@@ -5,121 +5,125 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Cyber Toolbox Max Pro</title>
 <style>
-/* 全局基础样式 */
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:system-ui,Roboto,sans-serif;
-  touch-action: manipulation;
-}
-html {
-  scroll-behavior: smooth;
-}
-body{background:#12141d;color:#e6e9ef;transition:.3s}
+/* 所有CSS样式整合+去重+修复冲突，以下是完整样式 */
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,Roboto,sans-serif}
+body{background:#12141d;color:#e6e9ef;transition:.3s;animation: pageFadeIn 0.5s ease forwards;}
 body.theme-pink{background:#19121d}
 body.theme-green{background:#121d17}
-body.dark {background:#121212;color:#eee;}
-/* 原有布局样式 */
+body.dark{background:#121212;color:#eee;}
+body.dark .card{background:#1e1e1e;}
+body.dark .sidebar{background:#1a1a1a;}
+body.dark .search-input{background:#222;border-color:#333;color:#eee;}
+body.dark .category-tab span{background:#2a2a2a;}
+body.dark .result-box{background:#1e1e1e;}
+body.dark .tool-panel{background:#1a1a1a}
+body.dark .result-output{background:#222;color:#eee}
 .overlay{position:fixed;inset:0;background:#0006;z-index:40;opacity:0;pointer-events:none;transition:.3s}
 .overlay.show{opacity:1;pointer-events:auto}
 .sidebar{position:fixed;left:0;top:0;bottom:0;width:260px;background:#1b1e29;z-index:50;transform:translateX(-100%);transition:.3s;padding:24px 16px;overflow-y:auto}
 .sidebar.show{transform:translateX(0)}
 .sidebar h2{color:#c4a1ff;margin-bottom:24px;font-size:18px}
-.sidebar .menu-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;margin-bottom:8px;cursor:pointer}
+.sidebar .menu-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all 0.2s ease;}
 .sidebar .menu-item:hover{background:#c4a1ff1a;transform: translateX(4px);}
 .sidebar .close{position:absolute;top:20px;right:16px;width:36px;height:36px;border-radius:50%;background:#252a3a;display:grid;place-items:center;transition:all 0.2s ease;}
-.sidebar .close:hover{background:#c4a1ff;color:#000;transform:rotate(90deg);}
+.sidebar .close:hover{background:#c4a1ff;color:#000;transform: rotate(90deg);}
 .header{position:fixed;top:0;left:0;right:0;height:60px;background:#1b1e29;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:30}
 .header .menu{width:40px;height:40px;border-radius:10px;background:#252a3a;display:grid;place-items:center;transition:all 0.2s ease;}
-.header .menu:hover{background:#c4a1ff;color:#000;transform:rotate(15deg);}
+.header .menu:hover{background:#c4a1ff;color:#000;transform: rotate(15deg);}
 .main{margin-top:60px;margin-bottom:80px;padding:16px}
 .section{margin-bottom:28px}
 .section h3{color:#a5b3ff;margin-bottom:12px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-/* 卡片样式优化+高亮+主题适配 */
 .card{background:#202431;border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:transform 0.2s ease, box-shadow 0.2s ease;}
 .card:hover{background:#272b3b;transform: translateY(-2px);box-shadow: 0 4px 10px rgba(0,0,0,0.25);}
-.card.active {background: #c4a1ff;color: #000;font-weight: bold;}
-body.theme-pink .card{background:#2d1e29}
-body.theme-green .card{background:#1e2d25}
+.card.active{background:#c4a1ff;color:#000;font-weight: bold;}
 .card .name{font-size:13px;margin-top:6px}
-/* 底部导航 */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#1b1e29;display:flex;align-items:center;justify-content:space-around;padding:0 4px;z-index:30}
 .bottom-nav .item{display:flex;flex-direction:column;align-items:center;gap:4px;color:#9ca3af;font-size:12px;padding:8px;min-width:64px;transition:transform 0.15s ease;}
 .bottom-nav .item.active{color:#c4a1ff}
-.bottom-nav .item:active{transform:scale(0.92);}
-/* 主题按钮 */
+.bottom-nav .item:active{transform: scale(0.92);}
 .theme-switch{display:flex;gap:8px;margin-top:16px}
 .theme-btn{width:32px;height:32px;border-radius:50%;transition:all 0.2s ease;}
+.theme-btn:hover{transform: scale(1.15);box-shadow: 0 0 8px rgba(196,161,255,0.4);}
 .theme-btn.blue{background:#12141d}
 .theme-btn.pink{background:#19121d}
 .theme-btn.green{background:#121d17}
-.theme-btn:hover{transform:scale(1.15);box-shadow:0 0 8px rgba(196,161,255,0.4);}
-/* 最近使用/收藏 */
 .memory{background:#1b1e29;border-radius:12px;padding:12px;margin-bottom:20px}
 .memory h4{color:#c4a1ff;margin-bottom:10px}
 .mem-item{padding:6px 8px;background:#252a3a;border-radius:8px;margin-bottom:6px;font-size:12px;transition:all 0.2s ease;}
 .mem-item:hover{background:#2d3242;padding-left:10px;}
-.fav-tag{background:#252a3a;padding:6px 10px;border-radius:8px;margin:4px;font-size:12px;transition:all 0.2s ease;}
-.fav-tag:hover{background:#2d3242;transform:scale(1.03);}
-.fav-tag .del{color:#ff6b6b;margin-left:6px;cursor:pointer}
-/* 弹窗样式 */
 .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.95);background:#1b1e29;border-radius:16px;padding:20px;width:90%;max-width:380px;z-index:99;display:none;opacity:0;transition:opacity 0.3s ease, transform 0.3s ease;}
-.modal.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1);}
-body.dark .modal{background:#1e1e1e;}
+.modal.show{display:block;transform:translate(-50%,-50%);opacity:1;}
 .modal input{width:100%;padding:12px;border-radius:10px;background:#252a3a;border:none;color:#fff;margin:10px 0;transition:all 0.2s ease;}
-.modal input:focus{outline:none;transform:scale(1.01);box-shadow:0 0 0 2px rgba(196,161,255,0.35);}
-body.dark .modal input{background:#222;border-color:#333;}
+.modal input:focus{outline:none;transform: scale(1.01);box-shadow: 0 0 0 2px rgba(196,161,255,0.35);}
 .modal .btn{padding:10px;width:100%;background:#c4a1ff;color:#000;border:none;border-radius:10px;transition:transform 0.15s ease;}
-.modal .btn:active{transform:scale(0.95);}
-/* 提示框 */
+.modal .btn:active{transform: scale(0.95);}
 .toast{position:fixed;bottom:100px;left:50%;transform:translate(-50%,20px);background:#1b1e29;color:#c4a1ff;padding:10px 16px;border-radius:8px;opacity:0;transition:.3s;z-index:100;}
-.toast.show{opacity:1;transform:translate(-50%,0);animation:toastPop 0.3s ease forwards;}
-@keyframes toastPop {from { transform: translate(-50%, 10px); opacity: 0; }to { transform: translate(-50%, 0); opacity: 1; }}
-/* 页面/按钮组 */
+.toast.show{opacity:1;transform:translate(-50%,0);animation: toastPop 0.3s ease forwards;}
 .pages{width:100%}
 .page{display:none}
-.page.active{display:block;animation:pageFadeIn 0.5s ease forwards;}
-@keyframes pageFadeIn {from { opacity: 0; }to { opacity: 1; }}
+.page.active{display:block}
 .profile{background:#1b1e29;border-radius:12px;padding:16px;margin-bottom:16px}
 .profile h4{color:#c4a1ff;margin-bottom:12px}
 .stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #252a3a}
+.fav-tag{background:#252a3a;padding:6px 10px;border-radius:8px;margin:4px;font-size:12px;transition:all 0.2s ease;}
+.fav-tag:hover{background:#2d3242;transform: scale(1.03);}
+.fav-tag .del{color:#ff6b6b;margin-left:6px;cursor:pointer}
 .btn-group{display:flex;gap:10px;margin-top:10px}
 .btn-sm{flex:1;padding:10px;border-radius:10px;border:none}
 .btn-pri{background:#c4a1ff;color:#000}
 .btn-danger{background:#ff4757;color:#fff}
-/* 新增功能样式：搜索框/分类标签/工具面板 */
-.search-box {padding:10px 15px;position:sticky;top:60px;background:inherit;z-index:100;border-bottom:1px solid #252a3a;}
-.search-input {width:100%;padding:10px 15px;border:1px solid #333;border-radius:30px;outline:none;font-size:14px;background:#252a3a;color:#eee;}
-body.dark .search-input {background:#222;border-color:#333;}
-.category-tab {display:flex;gap:8px;padding:10px 15px;overflow-x:auto;background:inherit;border-bottom:1px solid #252a3a;}
-.category-tab span {padding:6px 12px;border-radius:15px;background:#252a3a;color:#eee;white-space:nowrap;cursor:pointer;font-size:12px;}
-.category-tab span.active {background:#c4a1ff;color:#000;}
-.tool-panel{margin:10px 16px;padding:10px;border-radius:8px;background:#1b1e29;display:flex;flex-wrap:wrap;gap:4px;}
-.tool-panel button{padding:6px 10px;border-radius:6px;border:none;background:#c4a1ff;cursor:pointer;margin:2px;font-size:12px;}
-.tool-panel button:hover{opacity:0.9;}
-body.theme-pink .tool-panel{background:#2d1e29}
-body.theme-green .tool-panel{background:#1e2d25}
-/* 结果展示/清空按钮/版本信息 */
-.result-output,.result-box{padding:12px;margin:10px 0;border-radius:8px;background:#252a3a;color:#eee;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;}
-body.dark .result-output,body.dark .result-box{background:#1e1e1e;}
-.clear-history, .clear-fav {background:#333;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer;margin:5px;}
-.clear-history:hover, .clear-fav:hover {background:#ff4d4d;}
-.version-info {position:fixed;bottom:80px;right:20px;padding:8px 12px;background:#252a3a;color:#c4a1ff;border-radius:6px;font-size:12px;z-index:99;cursor:pointer;}
-/* 返回顶部/主题切换按钮 */
-.back-top {position:fixed;bottom:80px;right:20px;width:40px;height:40px;background:#c4a1ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:999;}
-.back-top.show {opacity:1;pointer-events:all;}
-.theme-toggle {position:fixed;top:70px;right:20px;width:40px;height:40px;border-radius:50%;background:#c4a1ff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:999;font-size:16px;}
 /* 全局滚动条美化 */
-::-webkit-scrollbar {width:5px;height:5px;}
-::-webkit-scrollbar-thumb {background:#c4a1ff;border-radius:4px;}
-::-webkit-scrollbar-track {background:#202431;}
-/* 无结果提示 */
-.no-result{padding:20px;text-align:center;color:#9ca3af;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-thumb{background:#c4a1ff;border-radius:4px;}
+::-webkit-scrollbar-track{background:#202431;}
+/* 复制成功提示（全局） */
+.toast-global{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#c4a1ff;color:#000;padding:8px 16px;border-radius:6px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;}
+.toast-global.show{opacity:1;animation: toastPop 0.3s ease forwards;}
+/* 清空按钮样式 */
+.clear-history,.clear-fav{background:#333;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer;margin:5px 0;}
+.clear-history:hover,.clear-fav:hover{background:#ff4d4d;}
+.clear-fav{margin:5px 0 5px 10px;}
+/* 全局顺滑滚动 */
+html{scroll-behavior: smooth;}
+/* 移动端禁止双击缩放 */
+*{touch-action: manipulation;}
+/* 返回顶部按钮 */
+.back-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;background:#c4a1ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:999;}
+.back-top.show{opacity:1;pointer-events: all;}
+/* 工具搜索框（修复z-index，让侧边栏能覆盖它） */
+.search-box{padding:10px 15px;position:sticky;top:0;background:inherit;z-index:30;}
+.search-input{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:30px;outline:none;font-size:14px;}
+/* 主题切换按钮 */
+.theme-toggle{position:fixed;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:#c4a1ff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:999;font-size:16px;}
+/* 分类快捷标签栏 */
+.category-tab{display:flex;gap:8px;padding:10px 15px;overflow-x:auto;background:inherit;border-bottom:1px solid #eee;z-index:30;}
+.category-tab span{padding:6px 12px;border-radius:15px;background:#f0f0f0;white-space:nowrap;cursor:pointer;font-size:12px;}
+.category-tab span.active{background:#c4a1ff;color:#000;}
+/* 结果展示框 */
+.result-box{white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;padding:10px;border-radius:8px;background:#f9f9f9;margin-top:10px;}
+/* 版本信息 */
+.version-info{position:fixed;bottom:70px;right:20px;padding:8px 12px;background:#222;color:#fff;border-radius:6px;font-size:12px;z-index:99;cursor:pointer;}
+/* 网络工具面板 */
+.tool-panel{margin:10px 0;padding:10px;border-radius:8px;background:#f5f5f5;z-index:30;}
+.tool-panel button{padding:6px 10px;border-radius:6px;border:none;background:#c4a1ff;cursor:pointer;margin:4px;font-size:12px;}
+.tool-panel button:hover{opacity:0.9;}
+/* 网络工具结果输出 */
+.result-output{padding:10px;margin:8px 0;border-radius:6px;background:#fff;color:#222;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;}
+/* 搜索无结果提示 */
+.no-result{padding:20px;text-align:center;display:none;}
+/* 动画 */
+@keyframes pageFadeIn{from {opacity:0;} to {opacity:1;}}
+@keyframes toastPop{from {transform: translate(-50%, 10px);opacity:0;} to {transform: translate(-50%, 0);opacity:1;}}
+/* 系统深色模式适配 */
+@media (prefers-color-scheme: dark) {
+  body:not(.theme-pink):not(.theme-green){background:#121212;color:#eee;}
+  body:not(.theme-pink):not(.theme-green) .card{background:#1e1e1e;}
+  body:not(.theme-pink):not(.theme-green) .sidebar{background:#1a1a1a;}
+}
 </style>
 </head>
-<body class="theme-blue">
+<body>
 <div class="overlay" id="overlay"></div>
 <div class="sidebar" id="sidebar">
   <div class="close" id="closeSidebar">✕</div>
@@ -135,7 +139,7 @@ body.dark .result-output,body.dark .result-box{background:#1e1e1e;}
   <div class="menu-item" data-cat="网络工具">网络工具</div>
   <div class="menu-item" data-cat="玩机助手">玩机助手</div>
   <div class="menu-item" data-cat="趣味整活">趣味整活</div>
-  <div class="menu-item" data-cat="二次元游戏">二次元游戏</div>
+  <div class="menu-item" data-cat="二次元">二次元游戏</div>
   <div class="menu-item" data-cat="计算工具">数学计算</div>
   <div class="menu-item" data-cat="逆向工具">安卓逆向</div>
   <div class="menu-item" data-cat="日常工具">日常实用</div>
@@ -148,26 +152,11 @@ body.dark .result-output,body.dark .result-box{background:#1e1e1e;}
   <div class="menu-item" data-cat="玩机进阶">玩机进阶</div>
   <div class="menu-item" data-page="me">我的</div>
 </div>
-
 <div class="header">
   <div class="menu" id="openSidebar">☰</div>
   <div class="title">全能工具箱 Max Pro</div>
   <div style="width:40px"></div>
 </div>
-
-<!-- 搜索框+分类标签（新增，适配原有布局） -->
-<div class="search-box">
-  <input class="search-input" placeholder="搜索工具名称..." id="searchInput">
-</div>
-<div class="category-tab" id="catTab">
-  <span class="active">全部</span>
-  <span>常用</span>
-  <span>逆向</span>
-  <span>系统</span>
-  <span>网络</span>
-  <span>其他</span>
-</div>
-
 <div class="main">
 <div class="pages">
   <!-- 首页 -->
@@ -198,7 +187,6 @@ body.dark .result-output,body.dark .result-box{background:#1e1e1e;}
       <div class="card tool" data-name="Unicode编码"><div class="name">Unicode编码</div></div>
     </div></div>
   </div>
-
   <!-- 全部工具 -->
   <div class="page" id="page-tools">
     <div class="section" id="cat-文本处理"><h3>全文本工具(20)</h3><div class="grid">
@@ -218,4 +206,738 @@ body.dark .result-output,body.dark .result-box{background:#1e1e1e;}
       <div class="card tool" data-name="插入分隔符"><div class="name">插入分隔符</div></div>
       <div class="card tool" data-name="统计行数"><div class="name">统计行数</div></div>
       <div class="card tool" data-name="逆序段落"><div class="name">逆序段落</div></div>
-      <div class="card too
+      <div class="card tool" data-name="全角转半角"><div class="name">全角转半角</div></div>
+      <div class="card tool" data-name="半角转全角"><div class="name">半角转全角</div></div>
+      <div class="card tool" data-name="文本对比"><div class="name">文本对比</div></div>
+      <div class="card tool" data-name="随机打乱文本"><div class="name">随机打乱文本</div></div>
+    </div></div>
+    <div class="section" id="cat-编码加密"><h3>全编码加密(18)</h3><div class="grid">
+      <div class="card tool" data-name="MD5"><div class="name">MD5</div></div>
+      <div class="card tool" data-name="SHA1"><div class="name">SHA1</div></div>
+      <div class="card tool" data-name="SHA256"><div class="name">SHA256</div></div>
+      <div class="card tool" data-name="SHA512"><div class="name">SHA512</div></div>
+      <div class="card tool" data-name="SM3"><div class="name">SM3</div></div>
+      <div class="card tool" data-name="Base64编码"><div class="name">Base64编码</div></div>
+      <div class="card tool" data-name="Base64解码"><div class="name">Base64解码</div></div>
+      <div class="card tool" data-name="URL编码"><div class="name">URL编码</div></div>
+      <div class="card tool" data-name="URL解码"><div class="name">URL解码</div></div>
+      <div class="card tool" data-name="Unicode编码"><div class="name">Unicode编码</div></div>
+      <div class="card tool" data-name="Unicode解码"><div class="name">Unicode解码</div></div>
+      <div class="card tool" data-name="HTML编码"><div class="name">HTML编码</div></div>
+      <div class="card tool" data-name="HTML解码"><div class="name">HTML解码</div></div>
+      <div class="card tool" data-name="摩斯编码"><div class="name">摩斯编码</div></div>
+      <div class="card tool" data-name="摩斯解码"><div class="name">摩斯解码</div></div>
+      <div class="card tool" data-name="凯撒密码"><div class="name">凯撒密码</div></div>
+      <div class="card tool" data-name="栅栏密码"><div class="name">栅栏密码</div></div>
+      <div class="card tool" data-name="RC4加密"><div class="name">RC4加密</div></div>
+    </div></div>
+    <div class="section" id="cat-进制转换"><h3>进制转换(6)</h3><div class="grid">
+      <div class="card tool" data-name="十进制转二进制"><div class="name">十进制转二进制</div></div>
+      <div class="card tool" data-name="十进制转八进制"><div class="name">十进制转八进制</div></div>
+      <div class="card tool" data-name="十进制转十六进制"><div class="name">十进制转十六进制</div></div>
+      <div class="card tool" data-name="二进制转十进制"><div class="name">二进制转十进制</div></div>
+      <div class="card tool" data-name="八进制转十进制"><div class="name">八进制转十进制</div></div>
+      <div class="card tool" data-name="十六进制转十进制"><div class="name">十六进制转十进制</div></div>
+    </div></div>
+    <div class="section" id="cat-网络工具"><h3>网络工具(12)</h3><div class="grid">
+      <div class="card tool" data-name="IP查询"><div class="name">IP查询</div></div>
+      <div class="card tool" data-name="DNS解析"><div class="name">DNS解析</div></div>
+      <div class="card tool" data-name="端口检测"><div class="name">端口检测</div></div>
+      <div class="card tool" data-name="UA解析"><div class="name">UA解析</div></div>
+      <div class="card tool" data-name="时间戳转日期"><div class="name">时间戳转日期</div></div>
+      <div class="card tool" data-name="日期转时间戳"><div class="name">日期转时间戳</div></div>
+      <div class="card tool" data-name="GET请求模拟"><div class="name">GET模拟</div></div>
+      <div class="card tool" data-name="POST请求模拟"><div class="name">POST模拟</div></div>
+      <div class="card tool" data-name="网络延迟测试"><div class="name">延迟测试</div></div>
+      <div class="card tool" data-name="WiFi信号模拟"><div class="name">WiFi信号</div></div>
+      <div class="card tool" data-name="短链接生成"><div class="name">短链接</div></div>
+      <div class="card tool" data-name="链接解封"><div class="name">链接解封</div></div>
+    </div></div>
+    <div class="section" id="cat-玩机助手"><h3>玩机助手(8)</h3><div class="grid">
+      <div class="card tool" data-name="ADB命令生成"><div class="name">ADB生成</div></div>
+      <div class="card tool" data-name="Magisk模块生成"><div class="name">Magisk模块</div></div>
+      <div class="card tool" data-name="Frida脚本模板"><div class="name">Frida模板</div></div>
+      <div class="card tool" data-name="ROOT权限检测"><div class="name">ROOT检测</div></div>
+      <div class="card tool" data-name="刷机命令生成"><div class="name">刷机命令</div></div>
+      <div class="card tool" data-name="APK信息解析"><div class="name">APK解析</div></div>
+      <div class="card tool" data-name="SO文件信息"><div class="name">SO信息</div></div>
+      <div class="card tool" data-name="安卓机型修改"><div class="name">机型修改</div></div>
+    </div></div>
+    <div class="section" id="cat-趣味整活"><h3>趣味整活(6)</h3><div class="grid">
+      <div class="card tool" data-name="装逼语录生成"><div class="name">装逼语录</div></div>
+      <div class="card tool" data-name="土味情话生成"><div class="name">土味情话</div></div>
+      <div class="card tool" data-name="骂人文明转换器"><div class="name">文明用语</div></div>
+      <div class="card tool" data-name="随机表情包文案"><div class="name">表情包文案</div></div>
+      <div class="card tool" data-name="朋友圈文案生成"><div class="name">朋友圈文案</div></div>
+      <div class="card tool" data-name="整蛊弹窗代码"><div class="name">整蛊代码</div></div>
+    </div></div>
+    <div class="section" id="cat-二次元游戏"><h3>二次元游戏(4)</h3><div class="grid">
+      <div class="card tool" data-name="原神抽卡模拟"><div class="name">原神抽卡</div></div>
+      <div class="card tool" data-name="王者战力查询"><div class="name">王者战力</div></div>
+      <div class="card tool" data-name="二次元网名生成"><div class="name">二次元网名</div></div>
+      <div class="card tool" data-name="游戏ID重复检测"><div class="name">ID检测</div></div>
+    </div></div>
+    <div class="section" id="cat-文本扩展"><h3>文本扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="文本提取数字"><div class="name">提取数字</div></div>
+      <div class="card tool" data-name="文本提取中文"><div class="name">提取中文</div></div>
+      <div class="card tool" data-name="文本提取英文"><div class="name">提取英文</div></div>
+      <div class="card tool" data-name="文本换行去空格"><div class="name">换行去空格</div></div>
+      <div class="card tool" data-name="英文首字母小写"><div class="name">首字母小写</div></div>
+      <div class="card tool" data-name="文本重复次数"><div class="name">重复次数</div></div>
+      <div class="card tool" data-name="文本转拼音首字母"><div class="name">拼音首字母</div></div>
+      <div class="card tool" data-name="文本MD5批量"><div class="name">批量MD5</div></div>
+      <div class="card tool" data-name="文本分行加序号"><div class="name">分行加序号</div></div>
+      <div class="card tool" data-name="文本转JSON"><div class="name">文本转JSON</div></div>
+    </div></div>
+    <div class="section" id="cat-编码扩展"><h3>编码扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="Base32编码"><div class="name">Base32编码</div></div>
+      <div class="card tool" data-name="Base32解码"><div class="name">Base32解码</div></div>
+      <div class="card tool" data-name="ASCII转字符"><div class="name">ASCII转字符</div></div>
+      <div class="card tool" data-name="字符转ASCII"><div class="name">字符转ASCII</div></div>
+      <div class="card tool" data-name="二进制转文本"><div class="name">二进制转文本</div></div>
+      <div class="card tool" data-name="文本转二进制"><div class="name">文本转二进制</div></div>
+      <div class="card tool" data-name="十六进制转文本"><div class="name">Hex转文本</div></div>
+      <div class="card tool" data-name="文本转十六进制"><div class="name">文本转Hex</div></div>
+      <div class="card tool" data-name="URL参数解析"><div class="name">URL参数解析</div></div>
+      <div class="card tool" data-name="JSON格式化"><div class="name">JSON格式化</div></div>
+    </div></div>
+    <div class="section" id="cat-计算扩展"><h3>计算扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="最大数计算"><div class="name">最大数</div></div>
+      <div class="card tool" data-name="最小数计算"><div class="name">最小数</div></div>
+      <div class="card tool" data-name="平均值计算"><div class="name">平均值</div></div>
+      <div class="card tool" data-name="求和计算"><div class="name">求和计算</div></div>
+      <div class="card tool" data-name="取余计算"><div class="name">取余计算</div></div>
+      <div class="card tool" data-name="角度转弧度"><div class="name">角度转弧度</div></div>
+      <div class="card tool" data-name="弧度转角度"><div class="name">弧度转角度</div></div>
+      <div class="card tool" data-name="对数计算"><div class="name">对数计算</div></div>
+      <div class="card tool" data-name="指数计算"><div class="name">指数计算</div></div>
+      <div class="card tool" data-name="绝对值计算"><div class="name">绝对值</div></div>
+    </div></div>
+    <div class="section" id="cat-玩机扩展"><h3>玩机扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="快速脱壳命令"><div class="name">快速脱壳</div></div>
+      <div class="card tool" data-name="HOOK日志打印"><div class="name">HOOK日志</div></div>
+      <div class="card tool" data-name="APK包名提取"><div class="name">包名提取</div></div>
+      <div class="card tool" data-name="安卓进程查看"><div class="name">进程查看</div></div>
+      <div class="card tool" data-name="刷机清除缓存"><div class="name">清除缓存</div></div>
+      <div class="card tool" data-name="SO导出函数"><div class="name">SO导出函数</div></div>
+      <div class="card tool" data-name="安卓分区查看"><div class="name">分区查看</div></div>
+      <div class="card tool" data-name="ROOT权限获取"><div class="name">ROOT获取</div></div>
+      <div class="card tool" data-name="Frida附加进程"><div class="name">附加进程</div></div>
+      <div class="card tool" data-name="系统版本查看"><div class="name">系统版本</div></div>
+    </div></div>
+    <div class="section" id="cat-游戏扩展"><h3>游戏扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="和平精英灵敏度"><div class="name">吃鸡灵敏度</div></div>
+      <div class="card tool" data-name="王者荣耀皮肤代码"><div class="name">王者皮肤代码</div></div>
+      <div class="card tool" data-name="MC物品指令"><div class="name">MC物品指令</div></div>
+      <div class="card tool" data-name="蛋仔派对皮肤"><div class="name">蛋仔皮肤</div></div>
+      <div class="card tool" data-name="原神天赋材料"><div class="name">原神天赋材料</div></div>
+      <div class="card tool" data-name="王者段位计算"><div class="name">王者段位</div></div>
+      <div class="card tool" data-name="CF枪械代码"><div class="name">CF枪械代码</div></div>
+      <div class="card tool" data-name="飞车漂移参数"><div class="name">飞车漂移</div></div>
+      <div class="card tool" data-name="迷你世界道具"><div class="name">迷你道具</div></div>
+      <div class="card tool" data-name="游戏帧率优化"><div class="name">帧率优化</div></div>
+    </div></div>
+    <!-- 新增50款工具 -->
+    <div class="section" id="cat-日常拓展"><h3>日常拓展(10)</h3><div class="grid">
+      <div class="card tool" data-name="银行卡号校验"><div class="name">银行卡校验</div></div>
+      <div class="card tool" data-name="车牌号校验"><div class="name">车牌号校验</div></div>
+      <div class="card tool" data-name="时间计算"><div class="name">时间计算</div></div>
+      <div class="card tool" data-name="倒计时计算"><div class="name">倒计时计算</div></div>
+      <div class="card tool" data-name="税率计算"><div class="name">税率计算</div></div>
+      <div class="card tool" data-name="利息计算"><div class="name">利息计算</div></div>
+      <div class="card tool" data-name="年龄计算"><div class="name">年龄计算</div></div>
+      <div class="card tool" data-name="天数计算"><div class="name">天数计算</div></div>
+      <div class="card tool" data-name="汇率转换"><div class="name">汇率转换</div></div>
+      <div class="card tool" data-name="单位换算大全"><div class="name">单位换算</div></div>
+    </div></div>
+    <div class="section" id="cat-安全进阶"><h3>安全进阶(10)</h3><div class="grid">
+      <div class="card tool" data-name="SQL注入检测"><div class="name">SQL注入检测</div></div>
+      <div class="card tool" data-name="XSS攻击检测"><div class="name">XSS检测</div></div>
+      <div class="card tool" data-name="密码强度检测"><div class="name">密码强度</div></div>
+      <div class="card tool" data-name="暴力破解防护"><div class="name">防暴力破解</div></div>
+      <div class="card tool" data-name="网络抓包模板"><div class="name">抓包模板</div></div>
+      <div class="card tool" data-name="代理IP池生成"><div class="name">代理IP池</div></div>
+      <div class="card tool" data-name="数据加密存储"><div class="name">加密存储</div></div>
+      <div class="card tool" data-name="日志脱敏处理"><div class="name">日志脱敏</div></div>
+      <div class="card tool" data-name="端口转发模板"><div class="name">端口转发</div></div>
+      <div class="card tool" data-name="安全扫描报告"><div class="name">安全扫描</div></div>
+    </div></div>
+    <div class="section" id="cat-进制拓展"><h3>进制拓展(10)</h3><div class="grid">
+      <div class="card tool" data-name="八进制转二进制"><div class="name">8转2进制</div></div>
+      <div class="card tool" data-name="十六进制转二进制"><div class="name">16转2进制</div></div>
+      <div class="card tool" data-name="二进制转八进制"><div class="name">2转8进制</div></div>
+      <div class="card tool" data-name="二进制转十六进制"><div class="name">2转16进制</div></div>
+      <div class="card tool" data-name="三十二进制转换"><div class="name">32进制转换</div></div>
+      <div class="card tool" data-name="三十六进制转换"><div class="name">36进制转换</div></div>
+      <div class="card tool" data-name="进制批量转换"><div class="name">批量进制转换</div></div>
+      <div class="card tool" data-name="字节大小转换"><div class="name">字节转换</div></div>
+      <div class="card tool" data-name="位运算与"><div class="name">位运算与</div></div>
+      <div class="card tool" data-name="位运算或"><div class="name">位运算或</div></div>
+    </div></div>
+    <div class="section" id="cat-趣味进阶"><h3>趣味进阶(10)</h3><div class="grid">
+      <div class="card tool" data-name="火星文生成"><div class="name">火星文生成</div></div>
+      <div class="card tool" data-name="隐形文字生成"><div class="name">隐形文字</div></div>
+      <div class="card tool" data-name="花体字生成"><div class="name">花体字生成</div></div>
+      <div class="card tool" data-name="彩虹文字生成"><div class="name">彩虹文字</div></div>
+      <div class="card tool" data-name="玄学运势生成"><div class="name">运势生成</div></div>
+      <div class="card tool" data-name="情侣网名生成"><div class="name">情侣网名</div></div>
+      <div class="card tool" data-name="搞怪签名生成"><div class="name">搞怪签名</div></div>
+      <div class="card tool" data-name="暗黑文案生成"><div class="name">暗黑文案</div></div>
+      <div class="card tool" data-name="赛博语录生成"><div class="name">赛博语录</div></div>
+      <div class="card tool" data-name="玄学抽签生成"><div class="name">玄学抽签</div></div>
+    </div></div>
+    <div class="section" id="cat-玩机进阶"><h3>玩机进阶(10)</h3><div class="grid">
+      <div class="card tool" data-name="面具模块卸载"><div class="name">模块卸载</div></div>
+      <div class="card tool" data-name="应用冻结命令"><div class="name">应用冻结</div></div>
+      <div class="card tool" data-name="应用解冻命令"><div class="name">应用解冻</div></div>
+      <div class="card tool" data-name="系统应用卸载"><div class="name">系统应用卸载</div></div>
+      <div class="card tool" data-name="刷机救砖命令"><div class="name">刷机救砖</div></div>
+      <div class="card tool" data-name="内核刷入命令"><div class="name">内核刷入</div></div>
+      <div class="card tool" data-name="基带刷入命令"><div class="name">基带刷入</div></div>
+      <div class="card tool" data-name="Recovery备份"><div class="name">Recovery备份</div></div>
+      <div class="card tool" data-name="安卓日志清除"><div class="name">日志清除</div></div>
+      <div class="card tool" data-name="设备信息导出"><div class="name">设备信息导出</div></div>
+    </div></div>
+  </div>
+  <!-- 我的 -->
+  <div class="page" id="page-me">
+    <div class="profile"><h4>📊 使用统计</h4><div id="statList"></div></div>
+    <div class="profile"><h4>⭐ 我的收藏</h4><div id="favList"></div></div>
+    <div class="profile"><h4>🎨 主题切换</h4>
+      <div class="theme-switch">
+        <div class="theme-btn blue" data-theme="blue"></div>
+        <div class="theme-btn pink" data-theme="pink"></div>
+        <div class="theme-btn green" data-theme="green"></div>
+      </div>
+    </div>
+    <div class="profile"><h4>💾 数据管理</h4>
+      <div class="btn-group">
+        <button class="btn-sm btn-pri" id="export">导出数据</button>
+        <button class="btn-sm btn-danger" id="clear">清空数据</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="bottom-nav">
+  <div class="item active" data-page="home">首页</div>
+  <div class="item" data-page="tools">全部工具</div>
+  <div class="item" data-page="me">我的</div>
+</div>
+<div class="modal" id="modal">
+  <div id="mTitle"></div>
+  <input id="mInput" placeholder="请输入内容（多参数用英文逗号分隔）">
+  <button class="btn" id="run">执行</button>
+</div>
+<div class="toast" id="toast"></div>
+<!-- 全局提示框/结果框/空标签（动态生成的容器提前创建，避免重复查询） -->
+<div class="toast-global" id="toastGlobal"></div>
+<div class="no-result" id="noResult">未找到相关工具</div>
+<script>
+// ========== 全局常量/变量 ==========
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const modal   = document.getElementById('modal');
+const toast   = document.getElementById('toast');
+const toastGlobal = document.getElementById('toastGlobal');
+const noResult = document.getElementById('noResult');
+let currTool  = ''; // 原有工具标识
+let currentTool = ''; // 网络工具标识
+let isRunning = false; // 防止重复执行
+let inputHistory = JSON.parse(localStorage.getItem('input_history')||'[]');
+let histIndex = -1;
+// 工具输入占位符提示
+const toolPlaceholder = {
+  '十进制转二进制': '请输入数字',
+  '八进制转二进制': '请输入数字',
+  '十六进制转二进制': '请输入数字',
+  '最大数计算': '数字用英文逗号分隔，如10,20,30',
+  '求和计算': '数字用英文逗号分隔，如10,20,30',
+  '税率计算': '金额,税率，如1000,5',
+  '利息计算': '本金,利率,期数，如10000,3,12',
+  '年龄计算': '请输入出生年份，如2008',
+  '银行卡号校验': '请输入银行卡号',
+  '车牌号校验': '请输入车牌号'
+};
+
+// ========== 基础工具函数 ==========
+// 基础提示（底部）
+function showToast(m){
+  toast.textContent = m;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), 1800);
+}
+// 全局提示（中间，复制/操作成功）
+function showToastGlobal(msg) {
+  toastGlobal.textContent = msg;
+  toastGlobal.classList.add('show');
+  setTimeout(() => toastGlobal.classList.remove('show'), 1200);
+}
+// 关闭所有弹窗/侧边栏
+function closeAll(){
+  sidebar.classList.remove('show');
+  overlay.classList.remove('show');
+  modal.classList.remove('show');
+}
+// 结果展示（统一）
+function showResult(text) {
+  let box = document.querySelector('.result-output') || document.createElement('div');
+  box.className = 'result-output';
+  box.textContent = text;
+  document.getElementById('run').after(box);
+}
+// MD5加密
+function md5(s){
+  let l=Math.pow(2,32),a=0x67452301,b=0xEFCDAB89,c=0x98BADCFE,d=0x10325476,f=e=>{
+    let n=[],i,j;
+    for(i=0;i<64;i++)n[i]=(l+Math.abs(Math.sin(i+1)))>>>0;
+    s=unescape(encodeURIComponent(s));
+    let t=[],len=s.length;
+    for(i=0;i<len-3;i+=4)t.push(s.charCodeAt(i)|(s.charCodeAt(i+1)<<8)|(s.charCodeAt(i+2)<<16)|(s.charCodeAt(i+3)<<24));
+    for(j=len*8;i=t.length;t[i++]=0);
+    t[t.length-1]|=j;
+    for(i=0;i<t.length;i+=16){
+      let o=a,p=b,q=c,r=d;
+      for(j=0;j<64;j++){
+        let g,k,m=t[i+((16*j)/64)|0],F;
+        if(j<16){F=(b&c)|((~b)&d);g=j}else if(j<32){F=(d&b)|((~d)&c);g=(5*j+1)%16}else if(j<48){F=b^c^d;g=(3*j+5)%16}else{F=c^(b|~d);g=(7*j)%16}
+        F=(F+a+n[j]+m)|0;
+        k=(b<<(F=(F<<7)|(F>>>25)))|(b>>>(32-F));
+        a=d;d=c;c=k;b=k
+      }
+      a=(a+o)|0;b=(b+p)|0;c=(c+q)|0;d=(d+r)|0
+    }
+    return [a,b,c,d].map(x=>{
+      let s='';
+      for(i=0;i<4;i++)s+=((x>>>8*i)&0xFF).toString(16).padStart(2,'0');
+      return s
+    }).join('')
+  };
+  return f(s).toLowerCase()
+}
+// UUID生成
+function genUUID(){
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+    let r=Math.random()*16|0,v=c=='x'?r:(r&0x3|0x8)
+    return v.toString(16)
+  })
+}
+
+// ========== 原有工具接口/页面交互 ==========
+// 加载最近使用
+async function loadMem(){
+  const d = await (await fetch('/api/memory')).json();
+  document.getElementById('memList').innerHTML = d.data.map(i=>`<div class="mem-item">${i.tool}</div>`).join('');
+}
+// 加载使用统计
+async function loadStat(){
+  const d = await (await fetch('/api/stats')).json();
+  const t = Object.values(d.data).reduce((a,b)=>a+b,0);
+  let h = `<div class="stat"><span>总次数</span><span>${t}</span></div>`;
+  Object.entries(d.data).forEach(([k,v])=>{
+    h+=`<div class="stat"><span>${k}</span><span>${v}</span></div>`;
+  });
+  document.getElementById('statList').innerHTML = h;
+}
+// 加载收藏
+async function loadFav(){
+  const d = await (await fetch('/api/favorites')).json();
+  if(d.data.length===0){
+    document.getElementById('favList').innerHTML = '暂无收藏，长按工具收藏';
+    return;
+  }
+  document.getElementById('favList').innerHTML = d.data.map(i=>`
+    <span class="fav-tag">${i}<span class="del" onclick="delFav('${i}')">×</span></span>
+  `).join('');
+}
+// 删除收藏
+window.delFav = async (name)=>{
+  await fetch('/api/fav',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,act:'del'})
+  });
+  loadFav();
+  showToast('已取消收藏');
+}
+// 打开原有工具
+function openToolOrigin(name){
+  currTool = name;
+  currentTool = ''; // 清空网络工具标识
+  document.getElementById('mTitle').textContent = name;
+  document.getElementById('mInput').value = '';
+  document.getElementById('mInput').placeholder = toolPlaceholder[name] || '请输入内容（多参数用英文逗号）';
+  modal.classList.add('show');
+  overlay.classList.add('show');
+  // 工具高亮
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.card').forEach(c => {
+    if(c.textContent.trim() === name) c.classList.add('active');
+  });
+  // 工具使用次数统计
+  countToolUse(name);
+}
+// 原有工具执行
+async function runToolOrigin(){
+  const c = document.getElementById('mInput').value;
+  const res = await fetch('/api/run',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({tool:currTool,c})
+  });
+  const d = await res.json();
+  showToast(d.data || d.msg);
+  // 保存输入历史
+  saveInputHistory(c);
+  closeAll();
+  loadMem();
+}
+
+// ========== 新增优化功能 ==========
+// 1. 工具使用次数统计
+function countToolUse(name) {
+  let count = localStorage.getItem('tool_count_' + name) || 0;
+  count = parseInt(count) + 1;
+  localStorage.setItem('tool_count_' + name, count);
+}
+// 2. 保存输入历史
+function saveInputHistory(v) {
+  v = v.trim();
+  if(v && !inputHistory.includes(v)){
+    inputHistory.unshift(v);
+    inputHistory = inputHistory.slice(0,20);
+    localStorage.setItem('input_history',JSON.stringify(inputHistory));
+  }
+  histIndex = -1;
+}
+// 3. 一键清空最近使用
+function clearRecent() {
+  if(confirm('确定清空所有最近使用记录吗？')) {
+    localStorage.removeItem('recent_tools');
+    document.getElementById('memList').innerHTML = '<div>暂无最近使用</div>';
+    showToastGlobal('已清空最近使用');
+  }
+}
+// 4. 一键清空收藏
+function clearFavorite() {
+  if(confirm('确定清空所有收藏工具吗？')) {
+    localStorage.removeItem('favorite_tools');
+    document.getElementById('favList').innerHTML = '<div>暂无收藏</div>';
+    showToastGlobal('已清空收藏');
+  }
+}
+// 5. 清空所有本地数据
+function clearAllData() {
+  if(confirm('确定清空所有数据？收藏/记录/次数将全部重置')){
+    localStorage.clear();
+    location.reload();
+  }
+}
+// 6. 返回顶部功能
+function initBackTop() {
+  const backTop = document.createElement('div');
+  backTop.className = 'back-top';
+  backTop.innerHTML = '↑';
+  document.body.appendChild(backTop);
+  backTop.onclick = () => window.scrollTo(0,0);
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('show', window.scrollY > 300);
+  });
+}
+// 7. 搜索框功能
+function initSearch() {
+  const searchWrap = document.createElement('div');
+  searchWrap.className = 'search-box';
+  const searchInput = document.createElement('input');
+  searchInput.className = 'search-input';
+  searchInput.placeholder = '搜索工具名称...';
+  searchWrap.appendChild(searchInput);
+  document.body.insertBefore(searchWrap, document.body.firstChild);
+  // 搜索逻辑
+  searchInput.oninput = function() {
+    const key = this.value.toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+      const name = card.textContent.toLowerCase();
+      card.style.display = name.includes(key) ? 'block' : 'none';
+    });
+    // 无结果提示
+    const total = document.querySelectorAll('.card').length;
+    const hidden = document.querySelectorAll('.card[style="display: none;"]').length;
+    noResult.style.display = total === hidden ? 'block' : 'none';
+    document.querySelector('.main').appendChild(noResult);
+  };
+}
+// 8. 分类快捷标签
+function initCatTab() {
+  const catTab = document.createElement('div');
+  catTab.className = 'category-tab';
+  const cats = ['全部','常用','逆向','系统','网络','其他'];
+  cats.forEach(c => {
+    const s = document.createElement('span');
+    s.textContent = c;
+    s.onclick = () => {
+      document.querySelectorAll('.category-tab span').forEach(t=>t.classList.remove('active'));
+      s.classList.add('active');
+      showToast('切换至：'+c);
+    };
+    catTab.appendChild(s);
+  });
+  document.querySelector('.search-box').after(catTab);
+}
+// 9. 主题切换（手动+系统+记忆）
+function initTheme() {
+  // 手动深色/浅色切换按钮
+  const themeBtn = document.createElement('div');
+  themeBtn.className = 'theme-toggle';
+  themeBtn.textContent = '🌙';
+  document.body.appendChild(themeBtn);
+  themeBtn.onclick = () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('dark_mode', document.body.classList.contains('dark'));
+    themeBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  };
+  // 记住手动深色模式
+  if(localStorage.getItem('dark_mode') === 'true') {
+    document.body.classList.add('dark');
+    themeBtn.textContent = '☀️';
+  }
+  // 系统深色模式适配
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  media.addEventListener('change', e => {
+    if(!localStorage.getItem('dark_mode')){
+      document.body.classList.toggle('system-dark', e.matches);
+    }
+  });
+  // 自动夜间模式（22:00-07:00）
+  const hour = new Date().getHours();
+  if((hour>=22 || hour<=7) && !localStorage.getItem('dark_mode')) {
+    document.body.classList.add('dark');
+    themeBtn.textContent = '☀️';
+  }
+  // 自定义主题记忆
+  const savedTheme = localStorage.getItem('toolboxTheme');
+  if (savedTheme) {
+    document.body.className = 'theme-' + savedTheme;
+  }
+}
+// 10. 版本信息+长按清空所有数据
+function initVersion() {
+  const ver = document.createElement('div');
+  ver.className = 'version-info';
+  ver.textContent = '工具箱 v2.1';
+  ver.onclick=()=>showToastGlobal('多功能工具箱 · 2026优化版');
+  document.body.appendChild(ver);
+  // 长按版本按钮清空所有数据
+  let pressTimer = null;
+  ver.addEventListener('touchstart',()=>{
+    pressTimer = setTimeout(clearAllData,1500);
+  });
+  ver.addEventListener('touchend',()=>clearTimeout(pressTimer));
+  ver.addEventListener('touchmove',()=>clearTimeout(pressTimer));
+}
+// 11. 网络工具切换
+function openToolEx(type, tip) {
+  currentTool = type;
+  currTool = ''; // 清空原有工具标识
+  document.getElementById('mInput').value = '';
+  document.getElementById('mInput').placeholder = tip;
+  document.getElementById('mTitle').textContent = tip.split('：')[0];
+  modal.classList.add('show');
+  overlay.classList.add('show');
+  showToastGlobal('已切换：' + tip.split('：')[0]);
+}
+// 12. 网络工具面板
+function initNetToolPanel() {
+  const wrap = document.createElement('div');
+  wrap.className = 'tool-panel';
+  const tools = [
+    { t: 'myip', n: '本机IP', tip: '无需输入，直接执行' },
+    { t: 'proxy', n: '代理检测', tip: '无需输入，直接执行' },
+    { t: 'ipposi', n: 'IP精准定位', tip: '输入IP，不输入查本机' },
+    { t: 'ipblack', n: 'IP黑名单', tip: '输入要检测的IP' },
+    { t: 'ping', n: 'Ping测试', tip: '输入IP/域名' },
+    { t: 'dns', n: 'DNS解析', tip: '输入域名' },
+    { t: 'pollute', n: '域名污染', tip: '输入域名' },
+    { t: 'whois', n: 'Whois查询', tip: '输入域名' },
+    { t: 'port', n: '端口检测', tip: '格式 IP:端口' },
+    { t: 'douyin', n: '抖音UID查询', tip: '输入抖音ID/链接' },
+    { t: 'kuaishou', n: '快手ID查询', tip: '输入快手ID/链接' },
+    { t: 'phone', n: '手机号归属', tip: '输入手机号' },
+    { t: 'idcard', n: '身份证解析', tip: '输入18位身份证' },
+    { t: 'md5', n: 'MD5加密', tip: '输入内容' },
+    { t: 'base64en', n: 'Base64加密', tip: '输入原文' },
+    { t: 'base64de', n: 'Base64解密', tip: '输入密文' },
+    { t: 'uuid', n: 'UUID生成', tip: '无需输入' }
+  ];
+  tools.forEach(i => {
+    const btn = document.createElement('button');
+    btn.textContent = i.n;
+    btn.onclick = () => openToolEx(i.t, i.tip);
+    wrap.appendChild(btn);
+  });
+  document.body.insertBefore(wrap, document.querySelector('.search-box'));
+}
+// ========== 网络工具核心函数 ==========
+// 1. 本机IP
+async function getMyIP(){
+  let r = await fetch('https://api.ip.sb/geoip')
+  let j = await r.json()
+  return `IP: ${j.ip}\n地区: ${j.country} ${j.region} ${j.city}\n运营商: ${j.isp}`
+}
+// 2. Ping测试
+async function doPing(host){
+  if(!host)return '请输入域名/IP';
+  try{
+    let r = await fetch(`https://ping.cloudflare-dns.com/promise?host=${host}`)
+    let j = await r.json()
+    return j.status === 'ok' ? `延迟: ${j.avg}ms` : 'Ping失败';
+  }catch(e){
+    return `Ping ${host}\n状态：接口演示\n延迟：30ms（可对接真实Ping接口）`;
+  }
+}
+// 3. DNS解析
+async function getDNS(domain){
+  if(!domain)return '请输入域名';
+  let r = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=A`,{headers:{'accept':'application/dns-json'}})
+  let j = await r.json()
+  return j.Answer?.map(i=>i.data).join('\n') || '无解析记录'
+}
+// 4. Whois查询
+async function getWhois(domain){
+  if(!domain)return '请输入域名';
+  let r = await fetch(`https://whois-dev.vercel.app/api/whois?domain=${domain}`)
+  return await r.text()
+}
+// 5. 端口检测
+async function testPort(str){
+  let [ip,port] = str.split(':')
+  if(!ip||!port)return '格式错误，例：1.1.1.1:80'
+  let controller = new AbortController()
+  setTimeout(()=>controller.abort(),1500)
+  try{
+    await fetch(`https://portchecker.vercel.app/api/check?ip=${ip}&port=${port}`,{signal:controller.signal})
+    return `${ip}:${port} 开放`
+  }catch{return `${ip}:${port} 关闭/不可访问`}
+}
+// 6. 手机号归属地
+function getPhone(p){
+  if(!/^1[3-9]\d{9}$/.test(p))return '手机号格式错误'
+  let pre = p.slice(0,3)
+  return `手机号: ${p}\n号段: ${pre}\n归属地: 接口演示，可对接真实API`
+}
+// 7. 身份证解析
+function getIdCard(id){
+  if(!/(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(id))return '身份证格式错误'
+  let birth = id.slice(6,10)+'-'+id.slice(10,12)+'-'+id.slice(12,14)
+  let sex = id.slice(16,17)%2===0?'女':'男'
+  return `身份证: ${id}\n生日: ${birth}\n性别: ${sex}\n归属地: 可对接民政库`
+}
+// 8. 代理检测
+async function checkProxy() {
+  const res = await fetch('https://api.ip.sb/geoip');
+  const j = await res.json();
+  return `本机IP：${j.ip}
+地区：${j.country} ${j.region} ${j.city}
+ASN：${j.asn}
+代理/VPN：${j.proxy || '否'}
+`;
+}
+// 9. IP黑名单检测
+async function checkIPBlack(ip) {
+  if (!ip) return '请输入要检测的IP';
+  const res = await fetch(`https://api.abuseipdb.com/api/v2/check?ipAddress=${ip}`, {
+    headers: { 'Key': 'demo', 'Accept': 'application/json' }
+  });
+  const j = await res.json();
+  if (j.errors) return '黑名单检测：接口演示，替换正式Key即可使用';
+  return `IP：${ip}
+恶意评分：${j.data.abuseConfidenceScore}/100
+是否黑名单：${j.data.abuseConfidenceScore > 20 ? '是' : '否'}
+所属国家：${j.data.countryCode}
+`;
+}
+// 10. 域名污染检测
+async function checkDomainPollute(domain) {
+  if (!domain) return '请输入域名';
+  const dns1 = await (await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=A`, { headers: { accept: 'application/dns-json' } })).json();
+  const dns2 = await (await fetch(`https://dns.google/resolve?name=${domain}&type=A`)).json();
+  const a1 = dns1.Answer?.map(i => i.data).join(',') || '无解析记录';
+  const a2 = dns2.Answer?.map(i => i.data).join(',') || '无解析记录';
+  return `Cloudflare DNS解析：${a1}
+Google DNS解析：${a2}
+检测结果：${a1 === a2 ? '正常，无污染/劫持' : '疑似被污染/域名劫持'}
+`;
+}
+// 11. 抖音UID查询
+async function getDouyinUID(uid) {
+  if (!uid) return '请输入抖音ID/主页链接';
+  try{
+    const res = await fetch(`https://www.iesdouyin.com/api/douyin/user/?unique_id=${uid}`);
+    const j = await res.json();
+    if (j.code !== 0) return '查询失败，检查抖音ID是否正确';
+    return `抖音UID：${j.data.uid}
+用户昵称：${j.data.nickname}
+抖音ID：${j.data.unique_id}
+`;
+  }catch(e){
+    return '抖音接口访问受限，可更换接口地址';
+  }
+}
+// 12. IP精准定位
+async function getIPDetail(ip) {
+  if (!ip) ip = 'me';
+  const res = await fetch(`https://ipapi.co/${ip}/json/`);
+  const j = await res.json();
+  if(j.error) return 'IP定位失败，IP地址无效';
+  return `IP地址：${j.ip}
+所属国家：${j.country_name}
+所属地区：${j.region}
+所属城市：${j.city}
+经纬度：${j.latitude}, ${j.longitude}
+网络运营商：${j.org}
+时区：${j.timezone}
+`;
+}
+// 13. 快手ID查询
+async function getKuaishouInfo(id) {
+  if (!id) return '请输入快手ID/主页链接';
+  return `快手ID：${id}
+查询结果：接口演示版
+可对接功能：UID查询/粉丝数/头像/昵称
+提示：需申请快手开放平台API密钥
+`;
+}
+// 14. Base64加密
+function base64En(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+// 15. Base64解密
+function base64De(str) {
+  return decodeURIComponent(escape(atob(str)));
+}
+
+// ========== 全局事件绑定 ==========
+// 侧边栏打开/关闭
+document.getElementById('openSidebar').onclick = () => {
+  sidebar.classList.add('show');
+  overlay.classList.add('show');
+}
+document.getElementById('closeSidebar').onclick = closeAll;
+overlay.onclick = closeAll;
+
+// 底部导航切换
+document.querySelectorAll('.bottom-nav .item').forEach(i=>{
+  i.onclick = ()=>{
+    document.querySelectorAll('.bottom-nav .item').forEach(e=>e.classList.remove('active'));
+    i.classList.add('active');
+    const p = i.dataset.page;
+    document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+    document.getElementById('page-'+p).classList.add('active');
+    if(p==='me'){ 
+      loadMem(); loadStat(); loadFav();
+      // 我的页面添加清空按钮
+      if(!document.querySelector('#page-me .clear-history')){
+        const btn1 = docum
+</script>
+</body>
+</html>
