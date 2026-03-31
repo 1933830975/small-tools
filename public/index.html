@@ -28,31 +28,46 @@ body.theme-green{background:#121d18}
 .card:hover{background:#272b3b}
 .card .name{font-size:13px;color:#e6e9ef;margin-top:6px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#1b1e29;display:flex;align-items:center;justify-content:space-around;padding:0 4px;z-index:30}
-.bottom-nav .item{display:flex;flex-direction:column;align-items:center;gap:4px;color:#9ca3af;font-size:12px;padding:8px;min-width:64px}
+.bottom-nav .item{display:flex;flex-direction:column;align-items:center;gap:4px;color:#9ca3af;font-size:12px;padding:8px;min-width:64px;cursor:pointer}
 .bottom-nav .item.active{color:#c4a1ff}
 .theme-switch{display:flex;gap:8px;margin-top:16px}
 .theme-btn{width:32px;height:32px;border-radius:50%}
 .theme-btn.blue{background:#12141d}
 .theme-btn.pink{background:#1a121d}
 .theme-btn.green{background:#121d18}
-
-/* 记忆面板 */
 .memory-box{background:#1b1e29;border-radius:12px;padding:12px;margin-bottom:20px}
 .memory-box h4{color:#c4a1ff;font-size:14px;margin-bottom:10px}
 .memory-item{padding:6px 8px;background:#252a3a;border-radius:8px;margin-bottom:6px;font-size:12px}
 .memory-item span{color:#a5b3ff}
-
-/* 输入弹窗 */
 .tool-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1b1e29;border-radius:16px;padding:20px;width:90%;max-width:380px;z-index:99;display:none}
 .tool-modal.show{display:block}
 .tool-modal input{width:100%;padding:12px;border-radius:10px;background:#252a3a;border:none;color:#fff;margin:10px 0}
 .tool-modal .btn{padding:10px 14px;background:#c4a1ff;color:#000;border-radius:10px;border:none;width:100%;cursor:pointer}
+.pages {width:100%}
+.page {display:none}
+.page.active {display:block}
+
+/* 我的页面专用样式 */
+.profile-card{background:#1b1e29;border-radius:12px;padding:16px;margin-bottom:16px}
+.profile-card h4{color:#c4a1ff;font-size:15px;margin-bottom:12px}
+.stat-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #252a3a}
+.stat-item:last-child{border-bottom:none}
+.favorite-tag{display:inline-block;background:#252a3a;padding:6px 10px;border-radius:8px;margin:4px;font-size:12px}
+.favorite-tag .del{color:#ff6b6b;margin-left:6px;cursor:pointer}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #252a3a}
+.setting-row:last-child{border-bottom:none}
+.switch{width:40px;height:20px;background:#252a3a;border-radius:10px;position:relative;cursor:pointer}
+.switch.active{background:#c4a1ff}
+.switch::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:2px;left:2px;transition:.2s}
+.switch.active::after{left:22px}
+.btn-group{display:flex;gap:10px;margin-top:10px}
+.btn{flex:1;padding:10px;border-radius:10px;border:none;color:#fff;cursor:pointer}
+.btn.primary{background:#c4a1ff;color:#000}
+.btn.danger{background:#ff4757}
 </style>
 </head>
 <body>
 <div class="overlay" id="overlay"></div>
-
-<!-- 侧边栏 -->
 <div class="sidebar" id="sidebar">
 <div class="close-btn" id="closeSidebar">✕</div>
 <h2>Cyber Toolbox</h2>
@@ -71,70 +86,144 @@ body.theme-green{background:#121d18}
 <div class="menu-item" data-name="趣味整活">趣味整活</div>
 <div class="menu-item" data-name="设置">设置</div>
 </div>
-
-<!-- 头部 -->
 <div class="header">
 <div class="menu-btn" id="openSidebar">☰</div>
 <div class="title">全能工具箱 Pro</div>
 <div style="width:40px"></div>
 </div>
-
-<!-- 主内容 -->
 <div class="main">
-<!-- 记忆面板 -->
-<div class="memory-box">
-<h4>🕒 最近使用</h4>
-<div id="memoryList"></div>
-</div>
+  <div class="pages">
+    <!-- 首页 -->
+    <div class="page active" id="page-home">
+      <div class="memory-box">
+        <h4>🕒 最近使用</h4>
+        <div id="memoryList"></div>
+      </div>
+      <div class="section">
+        <h3>常用工具</h3>
+        <div class="grid">
+          <div class="card tool" data-name="文本翻转"><div class="name">文本翻转</div></div>
+          <div class="card tool" data-name="MD5加密"><div class="name">MD5加密</div></div>
+          <div class="card tool" data-name="密码生成"><div class="name">密码生成</div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>文本处理</h3>
+        <div class="grid">
+          <div class="card tool" data-name="繁简转换"><div class="name">繁简转换</div></div>
+          <div class="card tool" data-name="字数统计"><div class="name">字数统计</div></div>
+          <div class="card tool" data-name="去重复行"><div class="name">去重复行</div></div>
+          <div class="card tool" data-name="大小写转换"><div class="name">大小写转换</div></div>
+          <div class="card tool" data-name="竖排文本"><div class="name">竖排文本</div></div>
+          <div class="card tool" data-name="进制转换"><div class="name">进制转换</div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>编码加密</h3>
+        <div class="grid">
+          <div class="card tool" data-name="Base64编码"><div class="name">Base64编码</div></div>
+          <div class="card tool" data-name="Base64解码"><div class="name">Base64解码</div></div>
+          <div class="card tool" data-name="URL编码"><div class="name">URL编码</div></div>
+          <div class="card tool" data-name="URL解码"><div class="name">URL解码</div></div>
+          <div class="card tool" data-name="SHA256加密"><div class="name">SHA256</div></div>
+          <div class="card tool" data-name="摩斯密码编码"><div class="name">摩斯密码编码</div></div>
+          <div class="card tool" data-name="摩斯密码解码"><div class="name">摩斯密码解码</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- 全部工具页 -->
+    <div class="page" id="page-tools">
+      <div class="section">
+        <h3>全部工具</h3>
+        <div class="grid">
+          <div class="card tool" data-name="文本翻转"><div class="name">文本翻转</div></div>
+          <div class="card tool" data-name="MD5加密"><div class="name">MD5加密</div></div>
+          <div class="card tool" data-name="密码生成"><div class="name">密码生成</div></div>
+          <div class="card tool" data-name="繁简转换"><div class="name">繁简转换</div></div>
+          <div class="card tool" data-name="字数统计"><div class="name">字数统计</div></div>
+          <div class="card tool" data-name="去重复行"><div class="name">去重复行</div></div>
+          <div class="card tool" data-name="大小写转换"><div class="name">大小写转换</div></div>
+          <div class="card tool" data-name="竖排文本"><div class="name">竖排文本</div></div>
+          <div class="card tool" data-name="进制转换"><div class="name">进制转换</div></div>
+          <div class="card tool" data-name="Base64编码"><div class="name">Base64编码</div></div>
+          <div class="card tool" data-name="Base64解码"><div class="name">Base64解码</div></div>
+          <div class="card tool" data-name="URL编码"><div class="name">URL编码</div></div>
+          <div class="card tool" data-name="URL解码"><div class="name">URL解码</div></div>
+          <div class="card tool" data-name="SHA256加密"><div class="name">SHA256</div></div>
+          <div class="card tool" data-name="摩斯密码编码"><div class="name">摩斯密码编码</div></div>
+          <div class="card tool" data-name="摩斯密码解码"><div class="name">摩斯密码解码</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- 发现页 -->
+    <div class="page" id="page-discover">
+      <div class="section">
+        <h3>发现</h3>
+        <p style="color:#a5b3ff;line-height:1.6;padding:12px;background:#1b1e29;border-radius:12px;">
+          这里是发现页面，后续可添加：<br>
+          • 工具推荐与更新日志<br>
+          • 社区动态与使用教程<br>
+          • 趣味工具与创意玩法
+        </p>
+      </div>
+    </div>
+    <!-- 我的页（已实现全部功能） -->
+    <div class="page" id="page-me">
+      <div class="section">
+        <h3>我的</h3>
+        
+        <!-- 1. 工具使用统计 -->
+        <div class="profile-card">
+          <h4>📊 工具使用统计</h4>
+          <div id="statsList"></div>
+        </div>
 
-<div class="section">
-<h3>常用工具</h3>
-<div class="grid">
-<div class="card tool" data-name="文本翻转"><div class="name">文本翻转</div></div>
-<div class="card tool" data-name="MD5加密"><div class="name">MD5加密</div></div>
-<div class="card tool" data-name="密码生成"><div class="name">密码生成</div></div>
-</div>
-</div>
+        <!-- 2. 我的收藏 -->
+        <div class="profile-card">
+          <h4>⭐ 我的收藏</h4>
+          <div id="favoritesList"></div>
+        </div>
 
-<div class="section">
-<h3>文本处理</h3>
-<div class="grid">
-<div class="card tool" data-name="繁简转换"><div class="name">繁简转换</div></div>
-<div class="card tool" data-name="字数统计"><div class="name">字数统计</div></div>
-<div class="card tool" data-name="去重复行"><div class="name">去重复行</div></div>
-<div class="card tool" data-name="大小写转换"><div class="name">大小写转换</div></div>
-<div class="card tool" data-name="竖排文本"><div class="name">竖排文本</div></div>
-</div>
-</div>
+        <!-- 3. 主题与偏好设置 -->
+        <div class="profile-card">
+          <h4>⚙️ 主题与偏好</h4>
+          <div class="setting-row">
+            <span>深色主题（当前：蓝黑）</span>
+            <div class="theme-switch" style="display:flex;gap:8px">
+              <div class="theme-btn blue" data-theme="blue"></div>
+              <div class="theme-btn pink" data-theme="pink"></div>
+              <div class="theme-btn green" data-theme="green"></div>
+            </div>
+          </div>
+          <div class="setting-row">
+            <span>流畅动画</span>
+            <div class="switch active" id="animSwitch"></div>
+          </div>
+        </div>
 
-<div class="section">
-<h3>编码加密</h3>
-<div class="grid">
-<div class="card tool" data-name="Base64编码"><div class="name">Base64编码</div></div>
-<div class="card tool" data-name="Base64解码"><div class="name">Base64解码</div></div>
-<div class="card tool" data-name="URL编码"><div class="name">URL编码</div></div>
-<div class="card tool" data-name="URL解码"><div class="name">URL解码</div></div>
-<div class="card tool" data-name="SHA256加密"><div class="name">SHA256</div></div>
-<div class="card tool" data-name="摩斯密码"><div class="name">摩斯密码</div></div>
+        <!-- 4. 数据管理 -->
+        <div class="profile-card">
+          <h4>💾 数据管理</h4>
+          <div class="btn-group">
+            <button class="btn primary" id="exportBtn">导出数据</button>
+            <button class="btn danger" id="clearBtn">清空数据</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-
-<!-- 底部导航 -->
 <div class="bottom-nav">
-<div class="item active">首页</div>
-<div class="item">工具</div>
-<div class="item">发现</div>
-<div class="item">我的</div>
+  <div class="item active" data-page="page-home">首页</div>
+  <div class="item" data-page="page-tools">工具</div>
+  <div class="item" data-page="page-discover">发现</div>
+  <div class="item" data-page="page-me">我的</div>
 </div>
-
-<!-- 工具输入弹窗 -->
 <div class="tool-modal" id="toolModal">
 <div id="modalTitle"></div>
 <input id="toolInput" placeholder="请输入内容">
 <button class="btn" id="runTool">执行</button>
 </div>
-
 <script>
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
@@ -145,10 +234,13 @@ const modalTitle = document.getElementById('modalTitle');
 const toolInput = document.getElementById('toolInput');
 const runTool = document.getElementById('runTool');
 const memoryList = document.getElementById('memoryList');
-
+const statsList = document.getElementById('statsList');
+const favoritesList = document.getElementById('favoritesList');
+const exportBtn = document.getElementById('exportBtn');
+const clearBtn = document.getElementById('clearBtn');
+const animSwitch = document.getElementById('animSwitch');
 let currentTool = '';
 
-// 开关侧边栏
 function openSidebar(){sidebar.classList.add('show');overlay.classList.add('show')}
 function closeSidebar(){sidebar.classList.remove('show');overlay.classList.remove('show');toolModal.classList.remove('show')}
 openBtn.addEventListener('click',openSidebar);
@@ -159,27 +251,78 @@ overlay.addEventListener('click',closeSidebar);
 async function loadMemory(){
   const r=await fetch('/api/memory');
   const d=await r.json();
-  memoryList.innerHTML=d.data.map(i=>`
-  <div class="memory-item">${i.tool} <span>${i.time}</span></div>
-  `).join('')
+  memoryList.innerHTML=d.data.map(i=>`<div class="memory-item">${i.tool} <span>${i.time}</span></div>`).join('')
 }
-loadMemory();
 
-// 需要输入的工具
+// 加载统计
+async function loadStats(){
+  const r=await fetch('/api/stats');
+  const d=await r.json();
+  const total = Object.values(d.data).reduce((a,b)=>a+b,0);
+  statsList.innerHTML = `
+    <div class="stat-item"><span>总使用次数</span><span>${total}</span></div>
+    ${Object.entries(d.data).map(([k,v])=>`
+      <div class="stat-item"><span>${k}</span><span>${v}次</span></div>
+    `).join('')}
+  `;
+}
+
+// 加载收藏
+async function loadFavorites(){
+  const r=await fetch('/api/favorites');
+  const d=await r.json();
+  favoritesList.innerHTML = d.data.length ? d.data.map(t=>`
+    <span class="favorite-tag">${t}<span class="del" onclick="removeFavorite('${t}')">×</span></span>
+  `).join('') : '<p style="color:#9ca3af;font-size:12px">暂无收藏，去工具页添加吧~</p>';
+}
+
+// 移除收藏
+window.removeFavorite = async (toolName) => {
+  await fetch('/api/favorite',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({toolName, action:'remove'})
+  });
+  loadFavorites();
+}
+
+// 加载我的页面数据
+async function loadMyPage(){
+  await loadMemory();
+  await loadStats();
+  await loadFavorites();
+}
+
+// 页面切换时加载数据
+document.querySelectorAll('.bottom-nav .item').forEach(el=>{
+  el.addEventListener('click',function(){
+    document.querySelectorAll('.bottom-nav .item').forEach(i=>i.classList.remove('active'));
+    this.classList.add('active');
+    const targetPage = this.dataset.page;
+    document.querySelectorAll('.page').forEach(page=>page.classList.remove('active'));
+    document.getElementById(targetPage).classList.add('active');
+    if(targetPage === 'page-me') loadMyPage();
+    closeSidebar();
+  })
+});
+
+// 需要输入的工具列表
 const needInput = [
   'MD5加密','SHA256加密','Base64编码','Base64解码',
-  'URL编码','URL解码','文本翻转','字数统计'
+  'URL编码','URL解码','文本翻转','字数统计',
+  '摩斯密码编码','摩斯密码解码','进制转换'
 ];
 
-// 打开工具弹窗
 function openTool(tool){
   currentTool=tool;
   modalTitle.textContent=`工具：${tool}`;
   toolInput.value='';
+  if(tool === '进制转换') toolInput.placeholder = '例：123,10,2（十进制123转二进制）';
+  else if(tool.includes('摩斯密码')) toolInput.placeholder = '请输入要转换的内容';
+  else toolInput.placeholder = '请输入内容';
   toolModal.classList.add('show');
 }
 
-// 执行工具
 runTool.addEventListener('click',async ()=>{
   const content=toolInput.value.trim();
   const res=await fetch('/api/tool',{
@@ -191,31 +334,33 @@ runTool.addEventListener('click',async ()=>{
   alert(data.msg + '\n结果：' + (data.data?.result||''));
   toolModal.classList.remove('show');
   loadMemory();
+  if(document.getElementById('page-me').classList.contains('active')) loadMyPage();
 });
 
-// 工具点击
+// 工具卡片点击（新增收藏功能）
 document.querySelectorAll('.tool').forEach(el=>{
-  el.addEventListener('click',()=>{
+  el.addEventListener('click',async ()=>{
     const name=el.dataset.name;
+    // 长按收藏（模拟）
+    const isLongPress = confirm(`是否收藏「${name}」？`);
+    if(isLongPress){
+      await fetch('/api/favorite',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({toolName:name, action:'add'})
+      });
+      alert(`已收藏「${name}」`);
+      return;
+    }
     if(needInput.includes(name)) openTool(name);
     else useTool(name);
   })
 });
 
-// 侧边菜单
+// 侧边栏菜单点击
 document.querySelectorAll('.menu-item').forEach(el=>{
   el.addEventListener('click',()=>{
     alert('打开分类：'+el.dataset.name);
-    closeSidebar();
-  })
-});
-
-// 底部导航
-document.querySelectorAll('.bottom-nav .item').forEach(el=>{
-  el.addEventListener('click',()=>{
-    document.querySelectorAll('.bottom-nav .item').forEach(i=>i.classList.remove('active'));
-    el.classList.add('active');
-    alert('切换：'+el.textContent.trim());
     closeSidebar();
   })
 });
@@ -230,14 +375,46 @@ async function useTool(name){
   const d=await res.json();
   alert(d.msg+'\n'+d.data.result);
   loadMemory();
+  if(document.getElementById('page-me').classList.contains('active')) loadMyPage();
 }
 
-// 主题切换
+// 主题切换（整合到我的页面）
 document.querySelectorAll('.theme-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.body.className='theme-'+btn.dataset.theme
   })
-})
+});
+
+// 动画开关
+animSwitch.addEventListener('click',()=>{
+  animSwitch.classList.toggle('active');
+  document.body.style.transition = animSwitch.classList.contains('active') ? 'all .3s' : 'none';
+});
+
+// 导出数据
+exportBtn.addEventListener('click',async ()=>{
+  const res=await fetch('/api/export');
+  const d=await res.json();
+  const blob = new Blob([JSON.stringify(d.data,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `toolbox-data-${new Date().toLocaleDateString()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  alert('数据导出成功！');
+});
+
+// 清空数据
+clearBtn.addEventListener('click',async ()=>{
+  if(!confirm('确定要清空所有数据吗？此操作不可恢复！')) return;
+  await fetch('/api/clear',{method:'POST'});
+  loadMyPage();
+  alert('数据已清空！');
+});
+
+// 初始加载首页记忆
+loadMemory();
 </script>
 </body>
 </html>
