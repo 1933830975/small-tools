@@ -64,10 +64,6 @@ body.theme-green{background:#121d18}
 .btn{flex:1;padding:10px;border-radius:10px;border:none;color:#fff;cursor:pointer}
 .btn.primary{background:#c4a1ff;color:#000}
 .btn.danger{background:#ff4757}
-
-/* 新增：轻量提示条（替代alert弹窗） */
-.toast{position:fixed;bottom:100px;left:50%;transform:translate(-50%,20px);background:#1b1e29;color:#c4a1ff;padding:10px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:.3s;z-index:100}
-.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 </style>
 </head>
 <body>
@@ -228,8 +224,6 @@ body.theme-green{background:#121d18}
 <input id="toolInput" placeholder="请输入内容">
 <button class="btn" id="runTool">执行</button>
 </div>
-<!-- 新增：轻量提示条 -->
-<div class="toast" id="toast"></div>
 <script>
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
@@ -245,15 +239,7 @@ const favoritesList = document.getElementById('favoritesList');
 const exportBtn = document.getElementById('exportBtn');
 const clearBtn = document.getElementById('clearBtn');
 const animSwitch = document.getElementById('animSwitch');
-const toast = document.getElementById('toast');
 let currentTool = '';
-
-// 轻量提示函数（替代alert）
-function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
 
 function openSidebar(){sidebar.classList.add('show');overlay.classList.add('show')}
 function closeSidebar(){sidebar.classList.remove('show');overlay.classList.remove('show');toolModal.classList.remove('show')}
@@ -345,7 +331,7 @@ runTool.addEventListener('click',async ()=>{
     body:JSON.stringify({toolName:currentTool,content})
   });
   const data=await res.json();
-  showToast(data.msg);
+  alert(data.msg + '\n结果：' + (data.data?.result||''));
   toolModal.classList.remove('show');
   loadMemory();
   if(document.getElementById('page-me').classList.contains('active')) loadMyPage();
@@ -363,7 +349,7 @@ document.querySelectorAll('.tool').forEach(el=>{
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({toolName:name, action:'add'})
       });
-      showToast(`已收藏「${name}」`);
+      alert(`已收藏「${name}」`);
       return;
     }
     if(needInput.includes(name)) openTool(name);
@@ -371,14 +357,10 @@ document.querySelectorAll('.tool').forEach(el=>{
   })
 });
 
-// 优化侧边栏菜单点击：无弹窗，仅提示+关闭
+// 侧边栏菜单点击
 document.querySelectorAll('.menu-item').forEach(el=>{
   el.addEventListener('click',()=>{
-    const name = el.dataset.name;
-    showToast(`打开分类：${name}`);
-    // 可扩展：滚动到对应分类区域
-    if(name === '文本处理') document.getElementById('page-home').scrollIntoView({behavior:'smooth'});
-    if(name === '编码加密') document.querySelector('[data-name="编码加密"]').scrollIntoView({behavior:'smooth'});
+    alert('打开分类：'+el.dataset.name);
     closeSidebar();
   })
 });
@@ -391,7 +373,7 @@ async function useTool(name){
     body:JSON.stringify({toolName:name,content:''})
   });
   const d=await res.json();
-  showToast(d.msg);
+  alert(d.msg+'\n'+d.data.result);
   loadMemory();
   if(document.getElementById('page-me').classList.contains('active')) loadMyPage();
 }
@@ -399,8 +381,7 @@ async function useTool(name){
 // 主题切换（整合到我的页面）
 document.querySelectorAll('.theme-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    document.body.className='theme-'+btn.dataset.theme;
-    showToast(`已切换至${btn.dataset.theme}主题`);
+    document.body.className='theme-'+btn.dataset.theme
   })
 });
 
@@ -408,13 +389,12 @@ document.querySelectorAll('.theme-btn').forEach(btn=>{
 animSwitch.addEventListener('click',()=>{
   animSwitch.classList.toggle('active');
   document.body.style.transition = animSwitch.classList.contains('active') ? 'all .3s' : 'none';
-  showToast(animSwitch.classList.contains('active') ? '已开启流畅动画' : '已关闭动画');
 });
 
 // 导出数据
 exportBtn.addEventListener('click',async ()=>{
   const res=await fetch('/api/export');
-  const d=await r.json();
+  const d=await res.json();
   const blob = new Blob([JSON.stringify(d.data,null,2)],{type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -422,7 +402,7 @@ exportBtn.addEventListener('click',async ()=>{
   a.download = `toolbox-data-${new Date().toLocaleDateString()}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  showToast('数据导出成功！');
+  alert('数据导出成功！');
 });
 
 // 清空数据
@@ -430,7 +410,7 @@ clearBtn.addEventListener('click',async ()=>{
   if(!confirm('确定要清空所有数据吗？此操作不可恢复！')) return;
   await fetch('/api/clear',{method:'POST'});
   loadMyPage();
-  showToast('数据已清空！');
+  alert('数据已清空！');
 });
 
 // 初始加载首页记忆
