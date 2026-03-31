@@ -11,7 +11,7 @@ body.theme-pink{background:#19121d}
 body.theme-green{background:#121d17}
 .overlay{position:fixed;inset:0;background:#0006;z-index:40;opacity:0;pointer-events:none;transition:.3s}
 .overlay.show{opacity:1;pointer-events:auto}
-.sidebar{position:fixed;left:0;top0;bottom:0;width:260px;background:#1b1e29;z-index:50;transform:translateX(-100%);transition:.3s;padding:24px 16px;overflow-y:auto}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:260px;background:#1b1e29;z-index:50;transform:translateX(-100%);transition:.3s;padding:24px 16px;overflow-y:auto}
 .sidebar.show{transform:translateX(0)}
 .sidebar h2{color:#c4a1ff;margin-bottom:24px;font-size:18px}
 .sidebar .menu-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;margin-bottom:8px;cursor:pointer}
@@ -58,6 +58,7 @@ body.theme-green{background:#121d17}
 </style>
 </head>
 <body>
+
 <div class="overlay" id="overlay"></div>
 <div class="sidebar" id="sidebar">
   <div class="close" id="closeSidebar">✕</div>
@@ -79,6 +80,11 @@ body.theme-green{background:#121d17}
   <div class="menu-item" data-cat="日常工具">日常实用</div>
   <div class="menu-item" data-cat="游戏辅助">游戏辅助</div>
   <div class="menu-item" data-cat="安全工具">网络安全</div>
+  <div class="menu-item" data-cat="日常拓展">日常拓展</div>
+  <div class="menu-item" data-cat="安全进阶">安全进阶</div>
+  <div class="menu-item" data-cat="进制拓展">进制拓展</div>
+  <div class="menu-item" data-cat="趣味进阶">趣味进阶</div>
+  <div class="menu-item" data-cat="玩机进阶">玩机进阶</div>
   <div class="menu-item" data-page="me">我的</div>
 </div>
 
@@ -121,64 +127,232 @@ body.theme-green{background:#121d17}
     </div></div>
   </div>
 
-  <!-- 完整工具页 -->
+  <!-- 全部工具 -->
   <div class="page" id="page-tools">
-    <!-- 原有分类省略，保持不变 -->
-    <div class="section"><h3>全文本工具(20)</h3><div class="grid">
-      <div class="card tool" data-name="文本翻转"><div class="name">文本翻转</div></div><div class="card tool" data-name="字数统计"><div class="name">字数统计</div></div><div class="card tool" data-name="去重复行"><div class="name">去重复行</div></div><div class="card tool" data-name="大写转小写"><div class="name">大写转小写</div></div><div class="card tool" data-name="小写转大写"><div class="name">小写转大写</div></div><div class="card tool" data-name="首字母大写"><div class="name">首字母大写</div></div><div class="card tool" data-name="去除空格"><div class="name">去除空格</div></div><div class="card tool" data-name="去除空行"><div class="name">去除空行</div></div><div class="card tool" data-name="竖排文本"><div class="name">竖排文本</div></div><div class="card tool" data-name="繁简转换"><div class="name">繁简转换</div></div><div class="card tool" data-name="英文转中文"><div class="name">英文转中文</div></div><div class="card tool" data-name="中文转拼音"><div class="name">中文转拼音</div></div><div class="card tool" data-name="字符串拼接"><div class="name">字符串拼接</div></div><div class="card tool" data-name="插入分隔符"><div class="name">插入分隔符</div></div><div class="card tool" data-name="统计行数"><div class="name">统计行数</div></div><div class="card tool" data-name="逆序段落"><div class="name">逆序段落</div></div><div class="card tool" data-name="全角转半角"><div class="name">全角转半角</div></div><div class="card tool" data-name="半角转全角"><div class="name">半角转全角</div></div><div class="card tool" data-name="文本对比"><div class="name">文本对比</div></div><div class="card tool" data-name="随机打乱文本"><div class="name">随机打乱文本</div></div>
+    <div class="section" id="cat-文本处理"><h3>全文本工具(20)</h3><div class="grid">
+      <div class="card tool" data-name="文本翻转"><div class="name">文本翻转</div></div>
+      <div class="card tool" data-name="字数统计"><div class="name">字数统计</div></div>
+      <div class="card tool" data-name="去重复行"><div class="name">去重复行</div></div>
+      <div class="card tool" data-name="大写转小写"><div class="name">大写转小写</div></div>
+      <div class="card tool" data-name="小写转大写"><div class="name">小写转大写</div></div>
+      <div class="card tool" data-name="首字母大写"><div class="name">首字母大写</div></div>
+      <div class="card tool" data-name="去除空格"><div class="name">去除空格</div></div>
+      <div class="card tool" data-name="去除空行"><div class="name">去除空行</div></div>
+      <div class="card tool" data-name="竖排文本"><div class="name">竖排文本</div></div>
+      <div class="card tool" data-name="繁简转换"><div class="name">繁简转换</div></div>
+      <div class="card tool" data-name="英文转中文"><div class="name">英文转中文</div></div>
+      <div class="card tool" data-name="中文转拼音"><div class="name">中文转拼音</div></div>
+      <div class="card tool" data-name="字符串拼接"><div class="name">字符串拼接</div></div>
+      <div class="card tool" data-name="插入分隔符"><div class="name">插入分隔符</div></div>
+      <div class="card tool" data-name="统计行数"><div class="name">统计行数</div></div>
+      <div class="card tool" data-name="逆序段落"><div class="name">逆序段落</div></div>
+      <div class="card tool" data-name="全角转半角"><div class="name">全角转半角</div></div>
+      <div class="card tool" data-name="半角转全角"><div class="name">半角转全角</div></div>
+      <div class="card tool" data-name="文本对比"><div class="name">文本对比</div></div>
+      <div class="card tool" data-name="随机打乱文本"><div class="name">随机打乱文本</div></div>
     </div></div>
 
-    <div class="section"><h3>全编码加密(18)</h3><div class="grid">
-      <div class="card tool" data-name="MD5"><div class="name">MD5</div></div><div class="card tool" data-name="SHA1"><div class="name">SHA1</div></div><div class="card tool" data-name="SHA256"><div class="name">SHA256</div></div><div class="card tool" data-name="SHA512"><div class="name">SHA512</div></div><div class="card tool" data-name="SM3"><div class="name">SM3</div></div><div class="card tool" data-name="Base64编码"><div class="name">Base64编码</div></div><div class="card tool" data-name="Base64解码"><div class="name">Base64解码</div></div><div class="card tool" data-name="URL编码"><div class="name">URL编码</div></div><div class="card tool" data-name="URL解码"><div class="name">URL解码</div></div><div class="card tool" data-name="Unicode编码"><div class="name">Unicode编码</div></div><div class="card tool" data-name="Unicode解码"><div class="name">Unicode解码</div></div><div class="card tool" data-name="HTML编码"><div class="name">HTML编码</div></div><div class="card tool" data-name="HTML解码"><div class="name">HTML解码</div></div><div class="card tool" data-name="摩斯编码"><div class="name">摩斯编码</div></div><div class="card tool" data-name="摩斯解码"><div class="name">摩斯解码</div></div><div class="card tool" data-name="凯撒密码"><div class="name">凯撒密码</div></div><div class="card tool" data-name="栅栏密码"><div class="name">栅栏密码</div></div><div class="card tool" data-name="RC4加密"><div class="name">RC4加密</div></div>
+    <div class="section" id="cat-编码加密"><h3>全编码加密(18)</h3><div class="grid">
+      <div class="card tool" data-name="MD5"><div class="name">MD5</div></div>
+      <div class="card tool" data-name="SHA1"><div class="name">SHA1</div></div>
+      <div class="card tool" data-name="SHA256"><div class="name">SHA256</div></div>
+      <div class="card tool" data-name="SHA512"><div class="name">SHA512</div></div>
+      <div class="card tool" data-name="SM3"><div class="name">SM3</div></div>
+      <div class="card tool" data-name="Base64编码"><div class="name">Base64编码</div></div>
+      <div class="card tool" data-name="Base64解码"><div class="name">Base64解码</div></div>
+      <div class="card tool" data-name="URL编码"><div class="name">URL编码</div></div>
+      <div class="card tool" data-name="URL解码"><div class="name">URL解码</div></div>
+      <div class="card tool" data-name="Unicode编码"><div class="name">Unicode编码</div></div>
+      <div class="card tool" data-name="Unicode解码"><div class="name">Unicode解码</div></div>
+      <div class="card tool" data-name="HTML编码"><div class="name">HTML编码</div></div>
+      <div class="card tool" data-name="HTML解码"><div class="name">HTML解码</div></div>
+      <div class="card tool" data-name="摩斯编码"><div class="name">摩斯编码</div></div>
+      <div class="card tool" data-name="摩斯解码"><div class="name">摩斯解码</div></div>
+      <div class="card tool" data-name="凯撒密码"><div class="name">凯撒密码</div></div>
+      <div class="card tool" data-name="栅栏密码"><div class="name">栅栏密码</div></div>
+      <div class="card tool" data-name="RC4加密"><div class="name">RC4加密</div></div>
     </div></div>
 
-    <div class="section"><h3>进制转换(6)</h3><div class="grid">
-      <div class="card tool" data-name="十进制转二进制"><div class="name">十进制转二进制</div></div><div class="card tool" data-name="十进制转八进制"><div class="name">十进制转八进制</div></div><div class="card tool" data-name="十进制转十六进制"><div class="name">十进制转十六进制</div></div><div class="card tool" data-name="二进制转十进制"><div class="name">二进制转十进制</div></div><div class="card tool" data-name="八进制转十进制"><div class="name">八进制转十进制</div></div><div class="card tool" data-name="十六进制转十进制"><div class="name">十六进制转十进制</div></div>
+    <div class="section" id="cat-进制转换"><h3>进制转换(6)</h3><div class="grid">
+      <div class="card tool" data-name="十进制转二进制"><div class="name">十进制转二进制</div></div>
+      <div class="card tool" data-name="十进制转八进制"><div class="name">十进制转八进制</div></div>
+      <div class="card tool" data-name="十进制转十六进制"><div class="name">十进制转十六进制</div></div>
+      <div class="card tool" data-name="二进制转十进制"><div class="name">二进制转十进制</div></div>
+      <div class="card tool" data-name="八进制转十进制"><div class="name">八进制转十进制</div></div>
+      <div class="card tool" data-name="十六进制转十进制"><div class="name">十六进制转十进制</div></div>
     </div></div>
 
-    <div class="section"><h3>网络工具(12)</h3><div class="grid">
-      <div class="card tool" data-name="IP查询"><div class="name">IP查询</div></div><div class="card tool" data-name="DNS解析"><div class="name">DNS解析</div></div><div class="card tool" data-name="端口检测"><div class="name">端口检测</div></div><div class="card tool" data-name="UA解析"><div class="name">UA解析</div></div><div class="card tool" data-name="时间戳转日期"><div class="name">时间戳转日期</div></div><div class="card tool" data-name="日期转时间戳"><div class="name">日期转时间戳</div></div><div class="card tool" data-name="GET请求模拟"><div class="name">GET模拟</div></div><div class="card tool" data-name="POST请求模拟"><div class="name">POST模拟</div></div><div class="card tool" data-name="网络延迟测试"><div class="name">延迟测试</div></div><div class="card tool" data-name="WiFi信号模拟"><div class="name">WiFi信号</div></div><div class="card tool" data-name="短链接生成"><div class="name">短链接</div></div><div class="card tool" data-name="链接解封"><div class="name">链接解封</div></div>
+    <div class="section" id="cat-网络工具"><h3>网络工具(12)</h3><div class="grid">
+      <div class="card tool" data-name="IP查询"><div class="name">IP查询</div></div>
+      <div class="card tool" data-name="DNS解析"><div class="name">DNS解析</div></div>
+      <div class="card tool" data-name="端口检测"><div class="name">端口检测</div></div>
+      <div class="card tool" data-name="UA解析"><div class="name">UA解析</div></div>
+      <div class="card tool" data-name="时间戳转日期"><div class="name">时间戳转日期</div></div>
+      <div class="card tool" data-name="日期转时间戳"><div class="name">日期转时间戳</div></div>
+      <div class="card tool" data-name="GET请求模拟"><div class="name">GET模拟</div></div>
+      <div class="card tool" data-name="POST请求模拟"><div class="name">POST模拟</div></div>
+      <div class="card tool" data-name="网络延迟测试"><div class="name">延迟测试</div></div>
+      <div class="card tool" data-name="WiFi信号模拟"><div class="name">WiFi信号</div></div>
+      <div class="card tool" data-name="短链接生成"><div class="name">短链接</div></div>
+      <div class="card tool" data-name="链接解封"><div class="name">链接解封</div></div>
     </div></div>
 
-    <div class="section"><h3>玩机助手(8)</h3><div class="grid">
-      <div class="card tool" data-name="ADB命令生成"><div class="name">ADB生成</div></div><div class="card tool" data-name="Magisk模块生成"><div class="name">Magisk模块</div></div><div class="card tool" data-name="Frida脚本模板"><div class="name">Frida模板</div></div><div class="card tool" data-name="ROOT权限检测"><div class="name">ROOT检测</div></div><div class="card tool" data-name="刷机命令生成"><div class="name">刷机命令</div></div><div class="card tool" data-name="APK信息解析"><div class="name">APK解析</div></div><div class="card tool" data-name="SO文件信息"><div class="name">SO信息</div></div><div class="card tool" data-name="安卓机型修改"><div class="name">机型修改</div></div>
+    <div class="section" id="cat-玩机助手"><h3>玩机助手(8)</h3><div class="grid">
+      <div class="card tool" data-name="ADB命令生成"><div class="name">ADB生成</div></div>
+      <div class="card tool" data-name="Magisk模块生成"><div class="name">Magisk模块</div></div>
+      <div class="card tool" data-name="Frida脚本模板"><div class="name">Frida模板</div></div>
+      <div class="card tool" data-name="ROOT权限检测"><div class="name">ROOT检测</div></div>
+      <div class="card tool" data-name="刷机命令生成"><div class="name">刷机命令</div></div>
+      <div class="card tool" data-name="APK信息解析"><div class="name">APK解析</div></div>
+      <div class="card tool" data-name="SO文件信息"><div class="name">SO信息</div></div>
+      <div class="card tool" data-name="安卓机型修改"><div class="name">机型修改</div></div>
     </div></div>
 
-    <div class="section"><h3>趣味整活(6)</h3><div class="grid">
-      <div class="card tool" data-name="装逼语录生成"><div class="name">装逼语录</div></div><div class="card tool" data-name="土味情话生成"><div class="name">土味情话</div></div><div class="card tool" data-name="骂人文明转换器"><div class="name">文明用语</div></div><div class="card tool" data-name="随机表情包文案"><div class="name">表情包文案</div></div><div class="card tool" data-name="朋友圈文案生成"><div class="name">朋友圈文案</div></div><div class="card tool" data-name="整蛊弹窗代码"><div class="name">整蛊代码</div></div>
+    <div class="section" id="cat-趣味整活"><h3>趣味整活(6)</h3><div class="grid">
+      <div class="card tool" data-name="装逼语录生成"><div class="name">装逼语录</div></div>
+      <div class="card tool" data-name="土味情话生成"><div class="name">土味情话</div></div>
+      <div class="card tool" data-name="骂人文明转换器"><div class="name">文明用语</div></div>
+      <div class="card tool" data-name="随机表情包文案"><div class="name">表情包文案</div></div>
+      <div class="card tool" data-name="朋友圈文案生成"><div class="name">朋友圈文案</div></div>
+      <div class="card tool" data-name="整蛊弹窗代码"><div class="name">整蛊代码</div></div>
     </div></div>
 
-    <div class="section"><h3>二次元游戏(4)</h3><div class="grid">
-      <div class="card tool" data-name="原神抽卡模拟"><div class="name">原神抽卡</div></div><div class="card tool" data-name="王者战力查询"><div class="name">王者战力</div></div><div class="card tool" data-name="二次元网名生成"><div class="name">二次元网名</div></div><div class="card tool" data-name="游戏ID重复检测"><div class="name">ID检测</div></div>
+    <div class="section" id="cat-二次元游戏"><h3>二次元游戏(4)</h3><div class="grid">
+      <div class="card tool" data-name="原神抽卡模拟"><div class="name">原神抽卡</div></div>
+      <div class="card tool" data-name="王者战力查询"><div class="name">王者战力</div></div>
+      <div class="card tool" data-name="二次元网名生成"><div class="name">二次元网名</div></div>
+      <div class="card tool" data-name="游戏ID重复检测"><div class="name">ID检测</div></div>
     </div></div>
 
-    <div class="section"><h3>多媒体(3)</h3><div class="grid">
-      <div class="card tool" data-name="二维码生成"><div class="name">二维码生成</div></div><div class="card tool" data-name="条形码模拟"><div class="name">条形码</div></div><div class="card tool" data-name="图片转Base64"><div class="name">图片转Base64</div></div>
+    <div class="section" id="cat-文本扩展"><h3>文本扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="文本提取数字"><div class="name">提取数字</div></div>
+      <div class="card tool" data-name="文本提取中文"><div class="name">提取中文</div></div>
+      <div class="card tool" data-name="文本提取英文"><div class="name">提取英文</div></div>
+      <div class="card tool" data-name="文本换行去空格"><div class="name">换行去空格</div></div>
+      <div class="card tool" data-name="英文首字母小写"><div class="name">首字母小写</div></div>
+      <div class="card tool" data-name="文本重复次数"><div class="name">重复次数</div></div>
+      <div class="card tool" data-name="文本转拼音首字母"><div class="name">拼音首字母</div></div>
+      <div class="card tool" data-name="文本MD5批量"><div class="name">批量MD5</div></div>
+      <div class="card tool" data-name="文本分行加序号"><div class="name">分行加序号</div></div>
+      <div class="card tool" data-name="文本转JSON"><div class="name">文本转JSON</div></div>
     </div></div>
 
-    <div class="section"><h3>随机工具(3)</h3><div class="grid">
-      <div class="card tool" data-name="密码生成(16位)"><div class="name">密码生成</div></div><div class="card tool" data-name="随机颜色"><div class="name">随机颜色</div></div><div class="card tool" data-name="随机数字"><div class="name">随机数字</div></div>
+    <div class="section" id="cat-编码扩展"><h3>编码扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="Base32编码"><div class="name">Base32编码</div></div>
+      <div class="card tool" data-name="Base32解码"><div class="name">Base32解码</div></div>
+      <div class="card tool" data-name="ASCII转字符"><div class="name">ASCII转字符</div></div>
+      <div class="card tool" data-name="字符转ASCII"><div class="name">字符转ASCII</div></div>
+      <div class="card tool" data-name="二进制转文本"><div class="name">二进制转文本</div></div>
+      <div class="card tool" data-name="文本转二进制"><div class="name">文本转二进制</div></div>
+      <div class="card tool" data-name="十六进制转文本"><div class="name">Hex转文本</div></div>
+      <div class="card tool" data-name="文本转十六进制"><div class="name">文本转Hex</div></div>
+      <div class="card tool" data-name="URL参数解析"><div class="name">URL参数解析</div></div>
+      <div class="card tool" data-name="JSON格式化"><div class="name">JSON格式化</div></div>
     </div></div>
 
-    <!-- ==================== 新增50个工具卡片 ==================== -->
-    <div class="section"><h3>数学计算(10)</h3><div class="grid">
-      <div class="card tool" data-name="加法计算"><div class="name">加法计算</div></div><div class="card tool" data-name="减法计算"><div class="name">减法计算</div></div><div class="card tool" data-name="乘法计算"><div class="name">乘法计算</div></div><div class="card tool" data-name="除法计算"><div class="name">除法计算</div></div><div class="card tool" data-name="平方计算"><div class="name">平方计算</div></div><div class="card tool" data-name="立方计算"><div class="name">立方计算</div></div><div class="card tool" data-name="开平方"><div class="name">开平方</div></div><div class="card tool" data-name="阶乘计算"><div class="name">阶乘计算</div></div><div class="card tool" data-name="百分比计算"><div class="name">百分比</div></div><div class="card tool" data-name="摄氏转华氏"><div class="name">摄氏转华氏</div></div>
+    <div class="section" id="cat-计算扩展"><h3>计算扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="最大数计算"><div class="name">最大数</div></div>
+      <div class="card tool" data-name="最小数计算"><div class="name">最小数</div></div>
+      <div class="card tool" data-name="平均值计算"><div class="name">平均值</div></div>
+      <div class="card tool" data-name="求和计算"><div class="name">求和计算</div></div>
+      <div class="card tool" data-name="取余计算"><div class="name">取余计算</div></div>
+      <div class="card tool" data-name="角度转弧度"><div class="name">角度转弧度</div></div>
+      <div class="card tool" data-name="弧度转角度"><div class="name">弧度转角度</div></div>
+      <div class="card tool" data-name="对数计算"><div class="name">对数计算</div></div>
+      <div class="card tool" data-name="指数计算"><div class="name">指数计算</div></div>
+      <div class="card tool" data-name="绝对值计算"><div class="name">绝对值</div></div>
     </div></div>
 
-    <div class="section"><h3>安卓逆向(10)</h3><div class="grid">
-      <div class="card tool" data-name="脱壳脚本模板"><div class="name">脱壳模板</div></div><div class="card tool" data-name="HOOK函数模板"><div class="name">HOOK模板</div></div><div class="card tool" data-name="内存搜索代码"><div class="name">内存搜索</div></div><div class="card tool" data-name="日志打印代码"><div class="name">日志打印</div></div><div class="card tool" data-name="包名快速提取"><div class="name">包名提取</div></div><div class="card tool" data-name="签名校验绕过"><div class="name">签名绕过</div></div><div class="card tool" data-name="ARM转十六进制"><div class="name">ARM转Hex</div></div><div class="card tool" data-name="十六进制转ARM"><div class="name">Hex转ARM</div></div><div class="card tool" data-name="字符串搜索代码"><div class="name">字符串搜索</div></div><div class="card tool" data-name="类名快速提取"><div class="name">类名提取</div></div>
+    <div class="section" id="cat-玩机扩展"><h3>玩机扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="快速脱壳命令"><div class="name">快速脱壳</div></div>
+      <div class="card tool" data-name="HOOK日志打印"><div class="name">HOOK日志</div></div>
+      <div class="card tool" data-name="APK包名提取"><div class="name">包名提取</div></div>
+      <div class="card tool" data-name="安卓进程查看"><div class="name">进程查看</div></div>
+      <div class="card tool" data-name="刷机清除缓存"><div class="name">清除缓存</div></div>
+      <div class="card tool" data-name="SO导出函数"><div class="name">SO导出函数</div></div>
+      <div class="card tool" data-name="安卓分区查看"><div class="name">分区查看</div></div>
+      <div class="card tool" data-name="ROOT权限获取"><div class="name">ROOT获取</div></div>
+      <div class="card tool" data-name="Frida附加进程"><div class="name">附加进程</div></div>
+      <div class="card tool" data-name="系统版本查看"><div class="name">系统版本</div></div>
     </div></div>
 
-    <div class="section"><h3>日常实用(10)</h3><div class="grid">
-      <div class="card tool" data-name="身份证校验"><div class="name">身份证校验</div></div><div class="card tool" data-name="手机号归属地"><div class="name">手机号归属</div></div><div class="card tool" data-name="生肖计算"><div class="name">生肖计算</div></div><div class="card tool" data-name="星座计算"><div class="name">星座计算</div></div><div class="card tool" data-name="长度转换"><div class="name">长度转换</div></div><div class="card tool" data-name="重量转换"><div class="name">重量转换</div></div><div class="card tool" data-name="速度转换"><div class="name">速度转换</div></div><div class="card tool" data-name="面积转换"><div class="name">面积转换</div></div><div class="card tool" data-name="体积转换"><div class="name">体积转换</div></div><div class="card tool" data-name="邮编查询"><div class="name">邮编查询</div></div>
+    <div class="section" id="cat-游戏扩展"><h3>游戏扩展(10)</h3><div class="grid">
+      <div class="card tool" data-name="和平精英灵敏度"><div class="name">吃鸡灵敏度</div></div>
+      <div class="card tool" data-name="王者荣耀皮肤代码"><div class="name">王者皮肤代码</div></div>
+      <div class="card tool" data-name="MC物品指令"><div class="name">MC物品指令</div></div>
+      <div class="card tool" data-name="蛋仔派对皮肤"><div class="name">蛋仔皮肤</div></div>
+      <div class="card tool" data-name="原神天赋材料"><div class="name">原神天赋材料</div></div>
+      <div class="card tool" data-name="王者段位计算"><div class="name">王者段位</div></div>
+      <div class="card tool" data-name="CF枪械代码"><div class="name">CF枪械代码</div></div>
+      <div class="card tool" data-name="飞车漂移参数"><div class="name">飞车漂移</div></div>
+      <div class="card tool" data-name="迷你世界道具"><div class="name">迷你道具</div></div>
+      <div class="card tool" data-name="游戏帧率优化"><div class="name">帧率优化</div></div>
     </div></div>
 
-    <div class="section"><h3>游戏辅助(10)</h3><div class="grid">
-      <div class="card tool" data-name="吃鸡灵敏度"><div class="name">吃鸡灵敏度</div></div><div class="card tool" data-name="王者连招代码"><div class="name">王者连招</div></div><div class="card tool" data-name="我的世界指令"><div class="name">MC指令</div></div><div class="card tool" data-name="迷你世界指令"><div class="name">迷你指令</div></div><div class="card tool" data-name="蛋仔派对ID"><div class="name">蛋仔ID</div></div><div class="card tool" data-name="原神树脂计算"><div class="name">原神树脂</div></div><div class="card tool" data-name="王者铭文搭配"><div class="name">王者铭文</div></div><div class="card tool" data-name="吃鸡压枪参数"><div class="name">压枪参数</div></div><div class="card tool" data-name="飞车改装代码"><div class="name">飞车改装</div></div><div class="card tool" data-name="CF抽奖模拟"><div class="name">CF抽奖</div></div>
+    <!-- 新增50款工具 -->
+    <div class="section" id="cat-日常拓展"><h3>日常拓展(10)</h3><div class="grid">
+      <div class="card tool" data-name="银行卡号校验"><div class="name">银行卡校验</div></div>
+      <div class="card tool" data-name="车牌号校验"><div class="name">车牌号校验</div></div>
+      <div class="card tool" data-name="时间计算"><div class="name">时间计算</div></div>
+      <div class="card tool" data-name="倒计时计算"><div class="name">倒计时计算</div></div>
+      <div class="card tool" data-name="税率计算"><div class="name">税率计算</div></div>
+      <div class="card tool" data-name="利息计算"><div class="name">利息计算</div></div>
+      <div class="card tool" data-name="年龄计算"><div class="name">年龄计算</div></div>
+      <div class="card tool" data-name="天数计算"><div class="name">天数计算</div></div>
+      <div class="card tool" data-name="汇率转换"><div class="name">汇率转换</div></div>
+      <div class="card tool" data-name="单位换算大全"><div class="name">单位换算</div></div>
     </div></div>
 
-    <div class="section"><h3>网络安全(10)</h3><div class="grid">
-      <div class="card tool" data-name="端口扫描模板"><div class="name">端口扫描</div></div><div class="card tool" data-name="弱口令检测"><div class="name">弱口令检测</div></div><div class="card tool" data-name="哈希校验"><div class="name">哈希校验</div></div><div class="card tool" data-name="防火墙规则"><div class="name">防火墙规则</div></div><div class="card tool" data-name="VPN配置模板"><div class="name">VPN模板</div></div><div class="card tool" data-name="HTTP代理模板"><div class="name">HTTP代理</div></div><div class="card tool" data-name="证书生成"><div class="name">证书生成</div></div><div class="card tool" data-name="流量监控"><div class="name">流量监控</div></div><div class="card tool" data-name="日志分析"><div class="name">日志分析</div></div><div class="card tool" data-name="恶意代码检测"><div class="name">恶意码检测</div></div>
+    <div class="section" id="cat-安全进阶"><h3>安全进阶(10)</h3><div class="grid">
+      <div class="card tool" data-name="SQL注入检测"><div class="name">SQL注入检测</div></div>
+      <div class="card tool" data-name="XSS攻击检测"><div class="name">XSS检测</div></div>
+      <div class="card tool" data-name="密码强度检测"><div class="name">密码强度</div></div>
+      <div class="card tool" data-name="暴力破解防护"><div class="name">防暴力破解</div></div>
+      <div class="card tool" data-name="网络抓包模板"><div class="name">抓包模板</div></div>
+      <div class="card tool" data-name="代理IP池生成"><div class="name">代理IP池</div></div>
+      <div class="card tool" data-name="数据加密存储"><div class="name">加密存储</div></div>
+      <div class="card tool" data-name="日志脱敏处理"><div class="name">日志脱敏</div></div>
+      <div class="card tool" data-name="端口转发模板"><div class="name">端口转发</div></div>
+      <div class="card tool" data-name="安全扫描报告"><div class="name">安全扫描</div></div>
+    </div></div>
+
+    <div class="section" id="cat-进制拓展"><h3>进制拓展(10)</h3><div class="grid">
+      <div class="card tool" data-name="八进制转二进制"><div class="name">8转2进制</div></div>
+      <div class="card tool" data-name="十六进制转二进制"><div class="name">16转2进制</div></div>
+      <div class="card tool" data-name="二进制转八进制"><div class="name">2转8进制</div></div>
+      <div class="card tool" data-name="二进制转十六进制"><div class="name">2转16进制</div></div>
+      <div class="card tool" data-name="三十二进制转换"><div class="name">32进制转换</div></div>
+      <div class="card tool" data-name="三十六进制转换"><div class="name">36进制转换</div></div>
+      <div class="card tool" data-name="进制批量转换"><div class="name">批量进制转换</div></div>
+      <div class="card tool" data-name="字节大小转换"><div class="name">字节转换</div></div>
+      <div class="card tool" data-name="位运算与"><div class="name">位运算与</div></div>
+      <div class="card tool" data-name="位运算或"><div class="name">位运算或</div></div>
+    </div></div>
+
+    <div class="section" id="cat-趣味进阶"><h3>趣味进阶(10)</h3><div class="grid">
+      <div class="card tool" data-name="火星文生成"><div class="name">火星文生成</div></div>
+      <div class="card tool" data-name="隐形文字生成"><div class="name">隐形文字</div></div>
+      <div class="card tool" data-name="花体字生成"><div class="name">花体字生成</div></div>
+      <div class="card tool" data-name="彩虹文字生成"><div class="name">彩虹文字</div></div>
+      <div class="card tool" data-name="玄学运势生成"><div class="name">运势生成</div></div>
+      <div class="card tool" data-name="情侣网名生成"><div class="name">情侣网名</div></div>
+      <div class="card tool" data-name="搞怪签名生成"><div class="name">搞怪签名</div></div>
+      <div class="card tool" data-name="暗黑文案生成"><div class="name">暗黑文案</div></div>
+      <div class="card tool" data-name="赛博语录生成"><div class="name">赛博语录</div></div>
+      <div class="card tool" data-name="玄学抽签生成"><div class="name">玄学抽签</div></div>
+    </div></div>
+
+    <div class="section" id="cat-玩机进阶"><h3>玩机进阶(10)</h3><div class="grid">
+      <div class="card tool" data-name="面具模块卸载"><div class="name">模块卸载</div></div>
+      <div class="card tool" data-name="应用冻结命令"><div class="name">应用冻结</div></div>
+      <div class="card tool" data-name="应用解冻命令"><div class="name">应用解冻</div></div>
+      <div class="card tool" data-name="系统应用卸载"><div class="name">系统应用卸载</div></div>
+      <div class="card tool" data-name="刷机救砖命令"><div class="name">刷机救砖</div></div>
+      <div class="card tool" data-name="内核刷入命令"><div class="name">内核刷入</div></div>
+      <div class="card tool" data-name="基带刷入命令"><div class="name">基带刷入</div></div>
+      <div class="card tool" data-name="Recovery备份"><div class="name">Recovery备份</div></div>
+      <div class="card tool" data-name="安卓日志清除"><div class="name">日志清除</div></div>
+      <div class="card tool" data-name="设备信息导出"><div class="name">设备信息导出</div></div>
     </div></div>
   </div>
 
@@ -217,95 +391,163 @@ body.theme-green{background:#121d17}
 <div class="toast" id="toast"></div>
 
 <script>
-const sidebar=document.getElementById('sidebar');
-const overlay=document.getElementById('overlay');
-const modal=document.getElementById('modal');
-const toast=document.getElementById('toast');
-let currTool='';
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const modal   = document.getElementById('modal');
+const toast   = document.getElementById('toast');
+let currTool  = '';
 
-function showToast(m){toast.textContent=m;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800)}
-function openSide(){sidebar.classList.add('show');overlay.classList.add('show')}
-function closeSide(){sidebar.classList.remove('show');overlay.classList.remove('show');modal.classList.remove('show')}
-document.getElementById('openSidebar').onclick=openSide;
-document.getElementById('closeSidebar').onclick=closeSide;
-overlay.onclick=closeSide;
+function showToast(m){
+  toast.textContent = m;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), 1800);
+}
+
+function closeAll(){
+  sidebar.classList.remove('show');
+  overlay.classList.remove('show');
+  modal.classList.remove('show');
+}
+
+document.getElementById('openSidebar').onclick = () => {
+  sidebar.classList.add('show');
+  overlay.classList.add('show');
+}
+document.getElementById('closeSidebar').onclick = closeAll;
+overlay.onclick = closeAll;
 
 async function loadMem(){
-  const d=await(await fetch('/api/memory')).json();
-  document.getElementById('memList').innerHTML=d.data.map(i=>`<div class="mem-item">${i.tool}</div>`).join('')
+  const d = await (await fetch('/api/memory')).json();
+  document.getElementById('memList').innerHTML = d.data.map(i=>`<div class="mem-item">${i.tool}</div>`).join('');
 }
+
 async function loadStat(){
-  const d=await(await fetch('/api/stats')).json();
-  const t=Object.values(d.data).reduce((a,b)=>a+b,0);
-  let h=`<div class="stat"><span>总次数</span><span>${t}</span></div>`;
-  Object.entries(d.data).forEach(([k,v])=>h+=`<div class="stat"><span>${k}</span><span>${v}</span></div>`);
-  document.getElementById('statList').innerHTML=h;
+  const d = await (await fetch('/api/stats')).json();
+  const t = Object.values(d.data).reduce((a,b)=>a+b,0);
+  let h = `<div class="stat"><span>总次数</span><span>${t}</span></div>`;
+  Object.entries(d.data).forEach(([k,v])=>{
+    h+=`<div class="stat"><span>${k}</span><span>${v}</span></div>`;
+  });
+  document.getElementById('statList').innerHTML = h;
 }
+
 async function loadFav(){
-  const d=await(await fetch('/api/favorites')).json();
-  document.getElementById('favList').innerHTML=d.data.length?d.data.map(i=>`<span class="fav-tag">${i}<span class="del" onclick="delFav('${i}')">×</span></span>`).join(''):'暂无收藏，长按工具收藏';
+  const d = await (await fetch('/api/favorites')).json();
+  if(d.data.length===0){
+    document.getElementById('favList').innerHTML = '暂无收藏，长按工具收藏';
+    return;
+  }
+  document.getElementById('favList').innerHTML = d.data.map(i=>`
+    <span class="fav-tag">${i}<span class="del" onclick="delFav('${i}')">×</span></span>
+  `).join('');
 }
-window.delFav=async(n)=>{await fetch('/api/fav',{method:'POST',body:JSON.stringify({name:n,act:'del'}),headers:{'Content-Type':'application/json'}});loadFav();showToast('已取消收藏')}
+
+window.delFav = async (name)=>{
+  await fetch('/api/fav',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,act:'del'})
+  });
+  loadFav();
+  showToast('已取消收藏');
+}
 
 document.querySelectorAll('.bottom-nav .item').forEach(i=>{
-  i.onclick=()=>{
+  i.onclick = ()=>{
     document.querySelectorAll('.bottom-nav .item').forEach(e=>e.classList.remove('active'));
     i.classList.add('active');
-    const p=i.dataset.page;
+    const p = i.dataset.page;
     document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
     document.getElementById('page-'+p).classList.add('active');
-    if(p==='me'){loadMem();loadStat();loadFav();}
-    closeSide();
+    if(p==='me'){ loadMem(); loadStat(); loadFav(); }
+    closeAll();
   }
 });
 
-function openTool(n){currTool=n;document.getElementById('mTitle').textContent=n;document.getElementById('mInput').value='';modal.classList.add('show')}
-document.getElementById('run').onclick=async()=>{
-  const c=document.getElementById('mInput').value;
-  const d=await(await fetch('/api/run',{method:'POST',body:JSON.stringify({tool:currTool,c}),headers:{'Content-Type':'application/json'}})).json();
-  showToast(d.data||d.msg);modal.classList.remove('show');loadMem();
+function openTool(name){
+  currTool = name;
+  document.getElementById('mTitle').textContent = name;
+  document.getElementById('mInput').value = '';
+  modal.classList.add('show');
+  overlay.classList.add('show');
 }
 
-document.querySelectorAll('.tool').forEach(e=>{
+document.getElementById('run').onclick = async ()=>{
+  const c = document.getElementById('mInput').value;
+  const res = await fetch('/api/run',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({tool:currTool,c})
+  });
+  const d = await res.json();
+  showToast(d.data || d.msg);
+  closeAll();
+  loadMem();
+}
+
+document.querySelectorAll('.tool').forEach(el=>{
   let timer;
-  e.ontouchstart=()=>timer=setTimeout(()=>{
-    fetch('/api/fav',{method:'POST',body:JSON.stringify({name:e.dataset.name,act:'add'}),headers:{'Content-Type':'application/json'}});
-    showToast('已收藏');loadFav();
-  },600);
-  e.ontouchend=()=>clearTimeout(timer);
-  e.onclick=()=>openTool(e.dataset.name);
+  el.ontouchstart = ()=>{
+    timer = setTimeout(()=>{
+      fetch('/api/fav',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name:el.dataset.name,act:'add'})
+      });
+      showToast('已收藏');
+      loadFav();
+    }, 600);
+  }
+  el.ontouchend = ()=> clearTimeout(timer);
+  el.onclick = ()=> openTool(el.dataset.name);
 });
 
 document.querySelectorAll('.menu-item').forEach(i=>{
-  i.onclick=()=>{
+  i.onclick = ()=>{
     if(i.dataset.page){
       document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
       document.getElementById('page-'+i.dataset.page).classList.add('active');
-      if(i.dataset.page==='me'){loadMem();loadStat();loadFav();}
+      if(i.dataset.page==='me'){ loadMem(); loadStat(); loadFav(); }
     }else{
-      showToast('已切换至 '+i.dataset.cat);
+      const cat = i.dataset.cat;
+      showToast('已切换至 '+cat);
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
       document.getElementById('page-tools').classList.add('active');
       document.querySelectorAll('.bottom-nav .item').forEach(e=>e.classList.remove('active'));
       document.querySelectorAll('.bottom-nav .item')[1].classList.add('active');
+      const target = document.getElementById(`cat-${cat}`);
+      if(target) target.scrollIntoView({behavior:'smooth'});
     }
-    closeSide();
+    closeAll();
   }
 });
 
 document.querySelectorAll('.theme-btn').forEach(b=>{
-  b.onclick=()=>{document.body.className='theme-'+b.dataset.theme;showToast('已切换主题')}
+  b.onclick = ()=>{
+    document.body.className = 'theme-'+b.dataset.theme;
+    showToast('已切换主题');
+  }
 });
 
-document.getElementById('export').onclick=async()=>{
-  const d=await(await fetch('/api/export')).json();
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([JSON.stringify(d.data)],{type:'text/json'}));
-  a.download='tool-data.json';a.click();showToast('导出成功');
-};
-document.getElementById('clear').onclick=async()=>{
+document.getElementById('export').onclick = async ()=>{
+  const d = await (await fetch('/api/export')).json();
+  const blob = new Blob([JSON.stringify(d.data)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'toolbox-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('导出成功');
+}
+
+document.getElementById('clear').onclick = async ()=>{
   await fetch('/api/clear',{method:'POST'});
-  loadMem();loadStat();loadFav();showToast('已清空');
-};
+  loadMem();
+  loadStat();
+  loadFav();
+  showToast('已清空所有数据');
+}
 
 loadMem();
 </script>
